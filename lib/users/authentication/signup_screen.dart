@@ -44,6 +44,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
           registerAndSavedUserRecord();
         }
       }
+      else{
+        Fluttertoast.showToast(msg: "Status is not 200");
+      }
     } catch (e) 
     {
       print(e.toString());

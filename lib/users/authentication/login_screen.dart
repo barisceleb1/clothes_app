@@ -58,6 +58,9 @@ try
           Fluttertoast.showToast(msg: 'Incorrect Credentials.\n Please write correct password or email and Try Again');
         }
       }
+      else{
+        Fluttertoast.showToast(msg: "Status is not 200");
+      }
 
     }
     catch(erorrMsg){

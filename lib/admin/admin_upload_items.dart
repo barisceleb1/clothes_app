@@ -193,11 +193,16 @@ API.uploadNewItem),
     if(resBodyOfUploadItem['success'] == true)
     {
     Fluttertoast.showToast(msg: "New item uploaded successfully");
+    setState(()=> pickedImageXFile=null);
+    Get.to(AdminUplodItemsScreen());
     }
     else
       {
           Fluttertoast.showToast(msg:"Item not uploaded. Error, Try again" );
       }
+  }
+  else{
+    Fluttertoast.showToast(msg: "Status is not 200");
   }
 
 }
@@ -222,13 +227,25 @@ print("Error:: "+ errorMsg.toString());
         centerTitle: true,
         leading: IconButton(
             onPressed: () {
-              Get.to(AdminLoginScreen());
+              setState((){
+                pickedImageXFile=null;
+                nameController.clear();
+                ratingController.clear();
+                tagsController.clear();
+                priceController.clear();
+                sizesController.clear();
+                colorsController.clear();
+                descriptionController.clear();
+
+              } );
+              Get.to(AdminUplodItemsScreen());
             },
             icon: Icon(Icons.clear)),
         actions: [
           TextButton(
               onPressed: () {
-                Get.to(AdminLoginScreen());
+                Fluttertoast.showToast(msg: "Uploading now...");
+                uploadItemImage();
               },
               child: Text(
                 "Done",
