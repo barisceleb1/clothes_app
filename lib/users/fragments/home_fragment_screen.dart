@@ -1,8 +1,16 @@
+import 'package:clothes_app/users/model/clothes.dart';
 import 'package:clothes_app/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 
 class HomeFragmentScreen extends StatelessWidget {
   TextEditingController searchController = TextEditingController();
+
+  Future<List<Clothes>?> getTrendingClothItems() async
+  {
+    List<Clothes> trendingClothItemsList = [];
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
