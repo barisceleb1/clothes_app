@@ -5,6 +5,7 @@ import 'package:clothes_app/api_connection/api_connection.dart';
 import 'package:clothes_app/users/model/clothes.dart';
 import 'package:clothes_app/utils/dimensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart'as http;
 
@@ -177,6 +178,84 @@ borderRadius: BorderRadius.circular(Dimensions.height20),
     ),
   ]
 ),
+                child: Column(
+                  children: [
+                    //-----------item image----------
+                    ClipRRect(
+                     borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(Dimensions.height22),
+                topRight: Radius.circular(Dimensions.height22),
+                ),
+                      child: FadeInImage(
+                          height: Dimensions.height150,
+                          width: Dimensions.height200,
+                          fit: BoxFit.cover,
+                          placeholder: const AssetImage("asssets/place_holder.png"), image:
+                      NetworkImage(eachClothItemData.image!),
+                      imageErrorBuilder: (context, error, stackTraceError)
+                      {
+                       return const Center(
+                         child: Icon(Icons.broken_image_outlined),
+
+                       );
+                      },
+                      ),
+                    ),
+
+                    Padding(
+                      padding: EdgeInsets.all(Dimensions.height8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          //-----------item name & price----------
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(eachClothItemData.name!,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: Dimensions.height16,
+                                  fontWeight: FontWeight.bold,
+                                ),),
+                              ),
+                              SizedBox(width: Dimensions.width10,),
+                              Text(eachClothItemData.price.toString(),
+                              style: TextStyle(
+                                color: Colors.purpleAccent,
+                                fontSize: Dimensions.height18
+                              ),)
+                            ],
+                          ),
+                          SizedBox(height: Dimensions.height8,),
+                          Row(
+                            children: [
+                              RatingBar.builder(
+                                  initialRating: eachClothItemData.rating!,
+                                  minRating: 1,
+                                  direction: Axis.horizontal,
+                                  allowHalfRating: true,
+                                  itemCount: 5,
+                                  itemBuilder:(context, c)=> Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                  ) , onRatingUpdate: (updateRating){},
+                                ignoreGestures: true,
+                                unratedColor: Colors.grey,
+                                itemSize: Dimensions.height20,
+
+                              ),
+
+
+                            ],
+                          )
+                        ],
+                      ),
+                    )
+
+                  ],
+                ),
               ),
             );
             },
