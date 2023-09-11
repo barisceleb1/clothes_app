@@ -1,14 +1,47 @@
+import 'dart:convert';
+import 'dart:js_interop_unsafe';
+
+import 'package:clothes_app/api_connection/api_connection.dart';
 import 'package:clothes_app/users/model/clothes.dart';
 import 'package:clothes_app/utils/dimensions.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart'as http;
 
 class HomeFragmentScreen extends StatelessWidget {
   TextEditingController searchController = TextEditingController();
 
-  Future<List<Clothes>?> getTrendingClothItems() async
+  Future<List<Clothes>> getTrendingClothItems() async
   {
     List<Clothes> trendingClothItemsList = [];
 
+    try
+        {
+        var res=  await http.post(
+            Uri.parse(API.getTrendingMostPopularClothes)
+          );
+        if(res.statusCode ==200)
+        {
+          var responseBodyOfTrending = jsonDecode(res.body);
+          if(responseBodyOfTrending["success"]==true)
+            {
+              (responseBodyOfTrending["clothItemsData"] as List).forEach((eachRecord)
+                  {
+                    trendingClothItemsList.add(Clothes.fromJson(eachRecord));
+                  });
+            }
+
+        }
+        else
+        {
+          Fluttertoast.showToast(msg:"Error, status code is not 200");
+        }
+        }
+        catch(errorMsg)
+              {
+                print("Error::" +errorMsg.toString());
+              }
+              return  trendingClothItemsList;
   }
 
 
@@ -32,6 +65,7 @@ class HomeFragmentScreen extends StatelessWidget {
               fontSize: Dimensions.height24,
             ),),
           ),
+          trendingMostPopularClothItemWidget(context),
           SizedBox(height: Dimensions.height24,),
           //--------all new collections/items----------
           Padding(
@@ -100,4 +134,54 @@ class HomeFragmentScreen extends StatelessWidget {
       ),
     );
   }
+
+ Widget trendingMostPopularClothItemWidget(context) {
+    return FutureBuilder(future: getTrendingClothItems() , builder:(context, AsyncSnapshot<List<Clothes>> dataSnapshot)
+    {
+      if(dataSnapshot.connectionState == ConnectionState.waiting){
+
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+      if(dataSnapshot.data == null){
+        return const Center(
+          child: Text("No trending item found"),
+        );
+      }
+      if(dataSnapshot.data!.length>0){
+        return Container(
+          height: Dimensions.height200,
+          child: ListView.builder(itemCount: dataSnapshot.data!.length,
+          scrollDirection: Axis.horizontal,
+            itemBuilder: (context,index){
+            Clothes eachClothItemData = dataSnapshot.data![index];
+            return GestureDetector(
+               onTap: ()
+               {
+
+               },
+              child: Container(
+                width: wi20,
+              ),
+            );
+            },
+
+          ),
+        );
+
+      }
+      else
+      {
+      return const Center(
+        child: Text("Empty, No Data"),
+      );
+      }
+    }
+
+
+    )
+
+
+ }
 }
