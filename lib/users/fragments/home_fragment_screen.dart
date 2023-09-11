@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:js_interop_unsafe';
+
 
 import 'package:clothes_app/api_connection/api_connection.dart';
 import 'package:clothes_app/users/model/clothes.dart';
@@ -151,7 +151,7 @@ class HomeFragmentScreen extends StatelessWidget {
       }
       if(dataSnapshot.data!.length>0){
         return Container(
-          height: Dimensions.height200,
+          height: Dimensions.height260,
           child: ListView.builder(itemCount: dataSnapshot.data!.length,
           scrollDirection: Axis.horizontal,
             itemBuilder: (context,index){
@@ -162,7 +162,21 @@ class HomeFragmentScreen extends StatelessWidget {
 
                },
               child: Container(
-                width: wi20,
+                width: Dimensions.width200,
+                margin: EdgeInsets.fromLTRB( index == 0 ? Dimensions.height16 : Dimensions.height8, Dimensions.height10,
+                    index == dataSnapshot.data!.length -1 ? Dimensions.height16: Dimensions.height8,Dimensions.height10,
+                ),
+decoration: BoxDecoration(
+borderRadius: BorderRadius.circular(Dimensions.height20),
+  color: Colors.black,
+   boxShadow: const[
+    BoxShadow(
+      offset: Offset(0, 3),
+      blurRadius: 6,
+      color: Colors.grey
+    ),
+  ]
+),
               ),
             );
             },
@@ -180,7 +194,7 @@ class HomeFragmentScreen extends StatelessWidget {
     }
 
 
-    )
+    );
 
 
  }
