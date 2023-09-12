@@ -190,7 +190,7 @@ borderRadius: BorderRadius.circular(Dimensions.height20),
                           height: Dimensions.height150,
                           width: Dimensions.height200,
                           fit: BoxFit.cover,
-                          placeholder: const AssetImage("asssets/place_holder.png"), image:
+                          placeholder: const AssetImage("assets/place_holder.png"), image:
                       NetworkImage(eachClothItemData.image!),
                       imageErrorBuilder: (context, error, stackTraceError)
                       {
@@ -246,6 +246,13 @@ borderRadius: BorderRadius.circular(Dimensions.height20),
                                 itemSize: Dimensions.height20,
 
                               ),
+                              SizedBox(width: Dimensions.width8,),
+                              Text(
+                                "("+eachClothItemData.rating.toString()+")",
+                                style: TextStyle(
+                                  color: Colors.grey
+                                ),
+                              )
 
 
                             ],
@@ -267,7 +274,8 @@ borderRadius: BorderRadius.circular(Dimensions.height20),
       else
       {
       return const Center(
-        child: Text("Empty, No Data"),
+        child: Text("Empty, No Data",style: TextStyle(color: Colors.white
+        ),),
       );
       }
     }
