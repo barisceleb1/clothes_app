@@ -110,7 +110,6 @@ class HomeFragmentScreen extends StatelessWidget {
                 fontSize: Dimensions.height24,
               ),),
           ),
-
           allItemWidget(context),
 
         ],
@@ -377,6 +376,7 @@ borderRadius: BorderRadius.circular(Dimensions.height20),
                             left: Dimensions.height15,),
                           child: Column(
                             children: [
+                              //----------name and price---------
                               Row(
                                 children: [
                                   Expanded(
@@ -386,10 +386,22 @@ borderRadius: BorderRadius.circular(Dimensions.height20),
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                           fontSize: Dimensions.height18,
-                                          color: Colors.grey,
+                                          color: Colors.white,
                                           fontWeight: FontWeight.bold,
                                         ),
-                                      ))
+                                      ),
+                                  ),
+                                  //-----------Price------------
+                                  Text(
+                                    "\₺"+eachClothItemRecord.price.toString(),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize: Dimensions.height18,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ],
                               )
                             ],
