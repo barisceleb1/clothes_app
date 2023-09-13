@@ -44,6 +44,38 @@ class HomeFragmentScreen extends StatelessWidget {
               }
               return  trendingClothItemsList;
   }
+  Future<List<Clothes>> getAllClothItems() async
+  {
+    List<Clothes> allClothItemsList = [];
+
+    try
+    {
+      var res=  await http.post(
+          Uri.parse(API.getAllClothes)
+      );
+      if(res.statusCode ==200)
+      {
+        var responseBodyOfAllClothes = jsonDecode(res.body);
+        if(responseBodyOfAllClothes["success"]==true)
+        {
+          (responseBodyOfAllClothes["clothItemsData"] as List).forEach((eachRecord)
+          {
+            allClothItemsList.add(Clothes.fromJson(eachRecord));
+          });
+        }
+
+      }
+      else
+      {
+        Fluttertoast.showToast(msg:"Error, status code is not 200");
+      }
+    }
+    catch(errorMsg)
+    {
+      print("Error::" +errorMsg.toString());
+    }
+    return  allClothItemsList;
+  }
 
 
   @override
@@ -77,7 +109,10 @@ class HomeFragmentScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 fontSize: Dimensions.height24,
               ),),
-          )
+          ),
+
+          allItemWidget(context),
+
         ],
       ),
 
@@ -285,4 +320,101 @@ borderRadius: BorderRadius.circular(Dimensions.height20),
 
 
  }
+
+  allItemWidget(context) {
+    return FutureBuilder(
+        future: getAllClothItems(),
+         builder:(context, AsyncSnapshot<List<Clothes>> dataSnapshot)
+    {
+      if(dataSnapshot.connectionState == ConnectionState.waiting )
+      {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+      if(dataSnapshot.data == null)
+      {
+        return const Center(
+          child: Text(
+            "Not all item found",style: TextStyle(color: Colors.white),),
+        );
+      }
+      if(dataSnapshot.data!.length>0)
+      {
+        return ListView.builder(
+          itemCount: dataSnapshot.data!.length,
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder:(context, index)
+            {
+              Clothes eachClothItemRecord = dataSnapshot.data![index];
+              return GestureDetector(
+                onTap: ()
+                {
+
+                },
+
+                child: Container(
+                  margin: EdgeInsets.fromLTRB(Dimensions.height16, index ==0 ? Dimensions.height16: Dimensions.height8 , Dimensions.height16,
+                  index == dataSnapshot.data!.length -1 ? Dimensions.height16:Dimensions.height8),
+                  decoration:  BoxDecoration(
+                      borderRadius: BorderRadius.circular(Dimensions.height20),
+                      color: Colors.black,
+                      boxShadow: const[
+                        BoxShadow(
+                            offset: Offset(0, 0),
+                            blurRadius: 6,
+                            color: Colors.grey
+                        ),
+                      ]
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: Padding(padding:
+                          EdgeInsets.only(
+                            left: Dimensions.height15,),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                      child: Text(
+                                        eachClothItemRecord.name!,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          fontSize: Dimensions.height18,
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ))
+                                ],
+                              )
+                            ],
+                          ),)
+                      )
+                    ],
+                  ),
+                ),
+              );
+
+            } );
+
+      }
+      else
+      {
+        return const Center(
+          child: Text("Empty no data"),
+        );
+      }
+    }
+
+    );
+
+
+
+
+  }
 }
