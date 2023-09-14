@@ -1,3 +1,4 @@
+import 'package:clothes_app/users/controllers/item_details_controller.dart';
 import 'package:clothes_app/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -9,11 +10,16 @@ class ItemDetailsScreen extends StatefulWidget {
 
   const ItemDetailsScreen({this.itemInfo});
 
+
   @override
   State<ItemDetailsScreen> createState() => _ItemDetailsScreenState();
 }
 
-class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
+class _ItemDetailsScreenState extends State<ItemDetailsScreen>
+{
+  final itemDetailsController = Get.put(ItemDetailsController());
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -171,7 +177,23 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
             ],
 
 
-          )
+          ),
+          Obx(() => Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              IconButton(onPressed: ()
+              {
+                itemDetailsController.setQuantityItem(itemDetailsController.quantity+1);
+
+              }, icon: Icon(
+                Icons.add_circle_outline,color: Colors.white,
+              ),
+              ),
+              Text(
+                itemDetailsController.quantity.toString(),
+              )
+            ],
+          ))
 
           //size
 
