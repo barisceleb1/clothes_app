@@ -227,7 +227,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                     ()=> GestureDetector(
                       onTap: ()
                       {
-
+                        itemDetailsController.setSizeItem(index);
                       },
                       child: Container(
                         height: Dimensions.height35,
@@ -265,6 +265,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                       ()=> GestureDetector(
                     onTap: ()
                     {
+                      itemDetailsController.setColorItem(index);
 
                     },
                     child: Container(
