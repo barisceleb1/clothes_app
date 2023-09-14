@@ -7,8 +7,9 @@ class SmallText extends StatelessWidget {
   final String text;
   double size;
   double height;
+  int maxLines;
 
-  SmallText({Key? key, this.color= const Color(0x8A000000), required this.text, this.size=12, this.height=0, this.overflow= TextOverflow.ellipsis}) : super(key: key);
+  SmallText({Key? key, this.color= const Color(0xFFF44336), required this.text, this.size=12, this.height=0, this.overflow= TextOverflow.ellipsis, this.maxLines=2}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

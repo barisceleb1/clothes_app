@@ -6,20 +6,16 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 
 class ItemDetailsScreen extends StatefulWidget {
-
   final itemInfo;
 
   const ItemDetailsScreen({this.itemInfo});
-
 
   @override
   State<ItemDetailsScreen> createState() => _ItemDetailsScreenState();
 }
 
-class _ItemDetailsScreenState extends State<ItemDetailsScreen>
-{
+class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
   final itemDetailsController = Get.put(ItemDetailsController());
-  
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +24,13 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen>
       body: Stack(
         //----item image----
         children: [
-           FadeInImage(
+          FadeInImage(
             height: MediaQuery.of(context).size.height * 0.5,
             width: MediaQuery.of(context).size.width,
             fit: BoxFit.cover,
-            placeholder:
-            const AssetImage("assets/place_holder.png"),
+            placeholder: const AssetImage("assets/place_holder.png"),
             image: NetworkImage(widget.itemInfo.image!),
-            imageErrorBuilder:
-                (context, error, stackTraceError) {
+            imageErrorBuilder: (context, error, stackTraceError) {
               return const Center(
                 child: Icon(Icons.broken_image_outlined),
               );
@@ -48,50 +42,48 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen>
             alignment: Alignment.bottomCenter,
             child: itemInfoWidget(),
           )
-
         ],
       ),
     );
   }
 
-  itemInfoWidget()
-  {
+  itemInfoWidget() {
     return Container(
       height: MediaQuery.of(Get.context!).size.height * 0.6,
-      width: MediaQuery.of(Get.context!).size.width ,
+      width: MediaQuery.of(Get.context!).size.width,
       decoration: BoxDecoration(
-        color: Colors.black,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(Dimensions.height30),
-          topRight: Radius.circular(Dimensions.height30),
-
-        ),
-        boxShadow: [
-          BoxShadow(
-            offset: Offset(0,-3),
-            blurRadius: Dimensions.height6,
-            color: Colors.grey
-          )
-        ]
-      ),
+          color: Colors.black,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(Dimensions.height30),
+            topRight: Radius.circular(Dimensions.height30),
+          ),
+          boxShadow: [
+            BoxShadow(
+                offset: Offset(0, -3),
+                blurRadius: Dimensions.height6,
+                color: Colors.grey)
+          ]),
       padding: EdgeInsets.symmetric(horizontal: Dimensions.height16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: Dimensions.height18,),
+          SizedBox(
+            height: Dimensions.height18,
+          ),
 
           Center(
             child: Container(
               height: Dimensions.height8,
               width: Dimensions.width140,
               decoration: BoxDecoration(
-                color: Colors.purpleAccent,
+                color: Colors.red,
                 borderRadius: BorderRadius.circular(Dimensions.height30),
               ),
-
             ),
           ),
-          SizedBox(height: Dimensions.height30,),
+          SizedBox(
+            height: Dimensions.height30,
+          ),
           //----name---
           Text(
             widget.itemInfo!.name!,
@@ -103,7 +95,9 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen>
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: Dimensions.height10,),
+          SizedBox(
+            height: Dimensions.height10,
+          ),
 
           //rating + rating num
           //tags
@@ -115,117 +109,114 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen>
               //rating + rating num
               //tags
               //price
-              Expanded(child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  //rating + rating num
-                  Row(
-                    children: [
-                      //rating bar
-                      RatingBar.builder(
-                        initialRating: widget.itemInfo!.rating!,
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: true,
-                        itemCount: 5,
-                        itemBuilder: (context, c) => Icon(
-                          Icons.star,
-                          color: Colors.amber,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    //rating + rating num
+                    Row(
+                      children: [
+                        //rating bar
+                        RatingBar.builder(
+                          initialRating: widget.itemInfo!.rating!,
+                          minRating: 1,
+                          direction: Axis.horizontal,
+                          allowHalfRating: true,
+                          itemCount: 5,
+                          itemBuilder: (context, c) => Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                          ),
+                          onRatingUpdate: (updateRating) {},
+                          ignoreGestures: true,
+                          unratedColor: Colors.grey,
+                          itemSize: Dimensions.height20,
                         ),
-                        onRatingUpdate: (updateRating) {},
-                        ignoreGestures: true,
-                        unratedColor: Colors.grey,
-                        itemSize: Dimensions.height20,
-                      ),
-                      SizedBox(width: Dimensions.width8,),
-                      Text(
-                        "(" +
-                            widget.itemInfo!.rating.toString() +
-                            ")",
-                        style: const TextStyle(color: Colors.grey),
-                      )
-
-                    ],
-                  ),
-                  SizedBox(height: Dimensions.height10,),
-                  //tags
-                  Text(
-                    widget.itemInfo!.tags!.toString().replaceAll("[", "").replaceAll("]", ""),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: Dimensions.height16,
-                      color: Colors.grey
+                        SizedBox(
+                          width: Dimensions.width8,
+                        ),
+                        Text(
+                          "(" + widget.itemInfo!.rating.toString() + ")",
+                          style: const TextStyle(color: Colors.grey),
+                        )
+                      ],
                     ),
-                  ),
-                  SizedBox(height: Dimensions.height16,),
-                  //price
-                  Text(
-                    "\$" + widget.itemInfo!.price.toString(),
-                    style: TextStyle(
+                    SizedBox(
+                      height: Dimensions.height10,
+                    ),
+                    //tags
+                    SmallText(
+                      text: widget.itemInfo!.tags!
+                          .toString()
+                          .replaceAll("[", "")
+                          .replaceAll("]", ""),
+                      maxLines: 2,
+                    ),
+                    SizedBox(
+                      height: Dimensions.height16,
+                    ),
+                    //price
+                    Text(
+                      "\$" + widget.itemInfo!.price.toString(),
+                      style: TextStyle(
                         fontSize: Dimensions.height24,
-                        color: Colors.redAccent,
-                      fontWeight: FontWeight.bold,
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-
-
-
-                ],
-              ),
+                  ],
+                ),
                 //quantity item counter
               ),
               Obx(() => Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  //+
-                  IconButton(onPressed: ()
-                  {
-                    itemDetailsController.setQuantityItem(itemDetailsController.quantity+1);
-
-                  }, icon: Icon(
-                    Icons.add_circle_outline,color: Colors.white,
-                  ),
-                  ),
-                  Text(
-                    itemDetailsController.quantity.toString(),
-                    style: TextStyle(
-                      fontSize: Dimensions.height20,
-                      color: Colors.purpleAccent,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  //-
-                  IconButton(onPressed: ()
-                  {
-                    if(itemDetailsController.quantity -1>=1)
-                    {
-                      itemDetailsController.setQuantityItem(itemDetailsController.quantity-1);
-                    }
-                    else
-                    {
-                      Get.snackbar("Warning", "Quantity must be 1 or greater than 1",duration: Duration(seconds: 1 ),backgroundColor: Colors.white38 ,snackPosition: SnackPosition.BOTTOM);
-                    }
-
-
-                  },
-                    icon: Icon(Icons.remove_circle_outline
-                      ,color: Colors.white,
-                    ),
-                  ),
-                ],
-              ))
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      //+
+                      IconButton(
+                        onPressed: () {
+                          itemDetailsController.setQuantityItem(
+                              itemDetailsController.quantity + 1);
+                        },
+                        icon: Icon(
+                          Icons.add_circle_outline,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text(
+                        itemDetailsController.quantity.toString(),
+                        style: TextStyle(
+                          fontSize: Dimensions.height20,
+                          color: Colors.purpleAccent,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      //-
+                      IconButton(
+                        onPressed: () {
+                          if (itemDetailsController.quantity - 1 >= 1) {
+                            itemDetailsController.setQuantityItem(
+                                itemDetailsController.quantity - 1);
+                          } else {
+                            Get.snackbar("Warning",
+                                "Quantity must be 1 or greater than 1",
+                                duration: Duration(seconds: 1),
+                                backgroundColor: Colors.white38,
+                                snackPosition: SnackPosition.BOTTOM);
+                          }
+                        },
+                        icon: Icon(
+                          Icons.remove_circle_outline,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ))
             ],
-
-
           ),
           //sizes
-SmallText(text: "Size:",size:Dimensions.height18),
-
-
+          SmallText(text: "Size:", size: Dimensions.height18),
         ],
       ),
-
     );
   }
 }
