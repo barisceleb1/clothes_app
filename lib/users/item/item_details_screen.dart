@@ -1,5 +1,6 @@
 import 'package:clothes_app/utils/dimensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 
 class ItemDetailsScreen extends StatefulWidget {
@@ -101,7 +102,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
           //tags
           //price
           //item counter
-         const Row(
+          Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //rating + rating num
@@ -113,9 +114,55 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   //rating + rating num
                   Row(
                     children: [
+                      //rating bar
+                      RatingBar.builder(
+                        initialRating: widget.itemInfo!.rating!,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: true,
+                        itemCount: 5,
+                        itemBuilder: (context, c) => Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                        onRatingUpdate: (updateRating) {},
+                        ignoreGestures: true,
+                        unratedColor: Colors.grey,
+                        itemSize: Dimensions.height20,
+                      ),
+                      SizedBox(width: Dimensions.width8,),
+                      Text(
+                        "(" +
+                            widget.itemInfo!.rating.toString() +
+                            ")",
+                        style: const TextStyle(color: Colors.grey),
+                      )
 
                     ],
-                  )
+                  ),
+                  SizedBox(height: Dimensions.height10,),
+                  //tags
+                  Text(
+                    widget.itemInfo!.tags!.toString().replaceAll("[", "").replaceAll("]", ""),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: Dimensions.height16,
+                      color: Colors.grey
+                    ),
+                  ),
+                  SizedBox(height: Dimensions.height16,),
+                  //price
+                  Text(
+                    "\$" + widget.itemInfo!.price.toString(),
+                    style: TextStyle(
+                        fontSize: Dimensions.height24,
+                        color: Colors.grey,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+
 
                 ],
               ),
