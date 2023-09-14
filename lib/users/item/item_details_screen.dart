@@ -186,7 +186,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                         itemDetailsController.quantity.toString(),
                         style: TextStyle(
                           fontSize: Dimensions.height20,
-                          color: Colors.purpleAccent,
+                          color: Colors.red,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
