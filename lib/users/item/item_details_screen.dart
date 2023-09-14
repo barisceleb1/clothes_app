@@ -215,6 +215,31 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
           ),
           //sizes
           SmallText(text: "Size:", size: Dimensions.height18),
+          SizedBox(height: Dimensions.height8,),
+          Wrap(
+            runSpacing: 8,
+            spacing: 8,
+            children: List.generate(widget.itemInfo!.sizes!.length, (index)
+            {
+              return Obx(
+                  ()=> GestureDetector(
+                    onTap: ()
+                    {
+
+                    },
+                    child: Container(
+                      height: Dimensions.height35,
+                      width: Dimensions.width60,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+
+                        ),
+                      ),
+                    ),
+                  ),
+              );
+            }),
+          )
         ],
       ),
     );
