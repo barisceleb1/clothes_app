@@ -296,6 +296,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
             SizedBox(height: Dimensions.height8,),
             SmallText(text: widget.itemInfo!.description!,textAlign: TextAlign.justify,color: Colors.grey,),
             SizedBox(height: Dimensions.height30,),
+            //------add to cart button------
             Material(
               elevation: 4,
               color: Colors.red,
