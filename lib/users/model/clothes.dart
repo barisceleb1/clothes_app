@@ -20,7 +20,7 @@ class Clothes
         price: double.parse(json["price"]),
         sizes: json["sizes"].toString().split(", "),
         colors: json["colors"].toString().split(", "),
-        description: json['desciption'],
+        description: json['description'],
         image: json["image"],
     );
 
