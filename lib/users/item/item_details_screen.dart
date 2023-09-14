@@ -1,5 +1,6 @@
 import 'package:clothes_app/users/controllers/item_details_controller.dart';
 import 'package:clothes_app/utils/dimensions.dart';
+import 'package:clothes_app/widget/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
@@ -98,7 +99,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen>
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: Dimensions.height18,
-              color: Colors.white,
+              color: Colors.grey,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -163,7 +164,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen>
                     "\$" + widget.itemInfo!.price.toString(),
                     style: TextStyle(
                         fontSize: Dimensions.height24,
-                        color: Colors.grey,
+                        color: Colors.redAccent,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -172,30 +173,55 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen>
 
                 ],
               ),
-                //item counter
+                //quantity item counter
               ),
+              Obx(() => Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  //+
+                  IconButton(onPressed: ()
+                  {
+                    itemDetailsController.setQuantityItem(itemDetailsController.quantity+1);
+
+                  }, icon: Icon(
+                    Icons.add_circle_outline,color: Colors.white,
+                  ),
+                  ),
+                  Text(
+                    itemDetailsController.quantity.toString(),
+                    style: TextStyle(
+                      fontSize: Dimensions.height20,
+                      color: Colors.purpleAccent,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  //-
+                  IconButton(onPressed: ()
+                  {
+                    if(itemDetailsController.quantity -1>=1)
+                    {
+                      itemDetailsController.setQuantityItem(itemDetailsController.quantity-1);
+                    }
+                    else
+                    {
+                      Get.snackbar("Warning", "Quantity must be 1 or greater than 1",duration: Duration(seconds: 1 ),backgroundColor: Colors.white38 ,snackPosition: SnackPosition.BOTTOM);
+                    }
+
+
+                  },
+                    icon: Icon(Icons.remove_circle_outline
+                      ,color: Colors.white,
+                    ),
+                  ),
+                ],
+              ))
             ],
 
 
           ),
-          Obx(() => Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              IconButton(onPressed: ()
-              {
-                itemDetailsController.setQuantityItem(itemDetailsController.quantity+1);
+          //sizes
+SmallText(text: "Size:",size:Dimensions.height18),
 
-              }, icon: Icon(
-                Icons.add_circle_outline,color: Colors.white,
-              ),
-              ),
-              Text(
-                itemDetailsController.quantity.toString(),
-              )
-            ],
-          ))
-
-          //size
 
         ],
       ),

@@ -66,7 +66,7 @@ class HomeFragmentScreen extends StatelessWidget {
           SizedBox(
             height: Dimensions.height16,
           ),
-          //------search bar widget--------------
+          //-----------search bar widget--------------
           showSearchBarWidget(),
           SizedBox(
             height: Dimensions.height24,
@@ -77,7 +77,7 @@ class HomeFragmentScreen extends StatelessWidget {
             child: Text(
               "Trending",
               style: TextStyle(
-                color: Colors.purpleAccent,
+                color: Colors.redAccent,
                 fontWeight: FontWeight.bold,
                 fontSize: Dimensions.height24,
               ),
@@ -93,7 +93,7 @@ class HomeFragmentScreen extends StatelessWidget {
             child: Text(
               "New Collections",
               style: TextStyle(
-                color: Colors.purpleAccent,
+                color: Colors.redAccent,
                 fontWeight: FontWeight.bold,
                 fontSize: Dimensions.height24,
               ),
@@ -116,7 +116,7 @@ class HomeFragmentScreen extends StatelessWidget {
               onPressed: () {},
               icon: Icon(
                 Icons.search,
-                color: Colors.purpleAccent,
+                color: Colors.redAccent,
               )),
           hintText: "Search best clothes here ",
           hintStyle: TextStyle(
@@ -126,17 +126,17 @@ class HomeFragmentScreen extends StatelessWidget {
           suffixIcon: IconButton(
             onPressed: () {},
             icon: Icon(Icons.shopping_cart),
-            color: Colors.purpleAccent,
+            color: Colors.redAccent,
           ),
           border: OutlineInputBorder(
               borderSide: BorderSide(
-                  width: Dimensions.height3, color: Colors.purpleAccent)),
+                  width: Dimensions.height3, color: Colors.redAccent)),
           enabledBorder: OutlineInputBorder(
               borderSide:
-                  BorderSide(width: Dimensions.height3, color: Colors.purple)),
+                  BorderSide(width: Dimensions.height3, color: Colors.red)),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(
-                  width: Dimensions.height3, color: Colors.purpleAccent)),
+                  width: Dimensions.height3, color: Colors.redAccent)),
           contentPadding: EdgeInsets.symmetric(
             horizontal: Dimensions.height16,
             vertical: Dimensions.height10,
@@ -245,7 +245,7 @@ class HomeFragmentScreen extends StatelessWidget {
                                     Text(
                                       eachClothItemData.price.toString(),
                                       style: TextStyle(
-                                          color: Colors.purpleAccent,
+                                          color: Colors.redAccent,
                                           fontSize: Dimensions.height18),
                                     )
                                   ],
@@ -315,7 +315,7 @@ class HomeFragmentScreen extends StatelessWidget {
             return const Center(
               child: Text(
                 "Not all item found",
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.redAccent),
               ),
             );
           }
@@ -372,7 +372,7 @@ class HomeFragmentScreen extends StatelessWidget {
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                           fontSize: Dimensions.height18,
-                                          color: Colors.white,
+                                          color: Colors.grey,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -387,7 +387,7 @@ class HomeFragmentScreen extends StatelessWidget {
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                           fontSize: Dimensions.height18,
-                                          color: Colors.white,
+                                          color: Colors.redAccent,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -407,7 +407,7 @@ class HomeFragmentScreen extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     fontSize: Dimensions.height12,
-                                    color: Colors.white,
+                                    color: Colors.grey,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
