@@ -48,6 +48,6 @@ class Cart
      description: json['description'],
       image: json['image'],
 
-  )
+  );
 
 }
