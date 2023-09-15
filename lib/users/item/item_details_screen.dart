@@ -1,10 +1,19 @@
+import 'dart:convert';
+
+import 'package:clothes_app/api_connection/api_connection.dart';
 import 'package:clothes_app/users/controllers/item_details_controller.dart';
+import 'package:clothes_app/users/fragments/dashboard_of_fragments.dart';
 import 'package:clothes_app/users/model/clothes.dart';
+import 'package:clothes_app/users/model/user.dart';
+import 'package:clothes_app/users/userPreferences/current_user.dart';
+import 'package:clothes_app/users/userPreferences/user_preferences.dart';
 import 'package:clothes_app/utils/dimensions.dart';
 import 'package:clothes_app/widget/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart'as http;
 
 class ItemDetailsScreen extends StatefulWidget {
   final Clothes? itemInfo;
@@ -17,6 +26,50 @@ class ItemDetailsScreen extends StatefulWidget {
 
 class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
   final itemDetailsController = Get.put(ItemDetailsController());
+  final currentOnlineUser = Get.put(CurrentUser());
+
+  addItemToCart() async
+  {
+    try
+    {
+      var res = await http.post(
+        Uri.parse(API.addToCart),
+        body: {
+      'user_id': currentOnlineUser.user.user_id.toString(),
+      'item_id': widget.itemInfo!.item_id.toString(),
+      'quantity': itemDetailsController.quantity.toString(),
+      'color': widget.itemInfo!.colors![itemDetailsController.color],
+      'size': widget.itemInfo!.sizes![itemDetailsController.size],
+      },
+      );
+
+      if (res.statusCode == 200) {
+        var resBodyOfAddCart = jsonDecode(res.body);
+        print("Giriş başarılı");
+        if (resBodyOfAddCart['success'] == true)
+        {
+          Fluttertoast.showToast(
+              msg: 'item saved to Cart Succesfully');
+
+        }
+        else
+        {
+          Fluttertoast.showToast(msg: 'Error Occur. Item not saved to Cart and Try Again');
+        }
+      }
+      else{
+        Fluttertoast.showToast(msg: "Status is not 200");
+      }
+
+    }
+    catch(errMsg)
+    {
+      print("Error: "+ errMsg.toString());
+    }
+
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -305,7 +358,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
               child: InkWell(
                 onTap: ()
                 {
-                  
+                    addItemToCart();
                 },
                 borderRadius: BorderRadius.circular(Dimensions.height10),
                 child: Container(
@@ -326,4 +379,6 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
       ),
     );
   }
+
+
 }
