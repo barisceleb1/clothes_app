@@ -21,4 +21,5 @@ class API {
   static const getAllClothes = "$hostClothes/all.php";
 // Cart
   static const addToCart = "$hostCart/add.php";
+  static const getCartList = "$hostCart/read.php";
 }
