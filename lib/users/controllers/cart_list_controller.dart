@@ -10,7 +10,7 @@ class CartListController extends GetxController
   RxDouble _total = 0.0.obs;
 
   List<Cart> get cartList => _cartList.value;
-  List<int> get selectedItem => _selectedItemList.value;
+  List<int> get selectedItemList => _selectedItemList.value;
   bool get isSelectedAll => _isSelectedAll.value;
   double get total => _total.value;
 

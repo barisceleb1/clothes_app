@@ -63,6 +63,22 @@ class _CartListScreenState extends State<CartListScreen> {
       Fluttertoast.showToast(msg: "Error:"+errMsg.toString());
     }
   }
+  calculateTotalAmount()
+  {
+    cartListController.setTotal(0);
+    if(cartListController.selectedItemList.length > 0)
+      {
+        cartListController.cartList.forEach((itemInCart)
+        {
+          if(cartListController.selectedItemList.contains(itemInCart.item_id))
+            {
+              double eachItemTotalAmount = (itemInCart.price!) * (double.parse(itemInCart.quantity.toString()));
+
+              cartListController.setTotal(cartListController.total + eachItemTotalAmount);
+            }
+        });
+      }
+  }
 
   @override
   Widget build(BuildContext context) {
