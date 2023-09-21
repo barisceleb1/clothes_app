@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:clothes_app/api_connection/api_connection.dart';
 import 'package:clothes_app/users/controllers/cart_list_controller.dart';
 import 'package:clothes_app/users/model/cart.dart';
+import 'package:clothes_app/users/model/clothes.dart';
 import 'package:clothes_app/users/userPreferences/current_user.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -82,6 +83,53 @@ class _CartListScreenState extends State<CartListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Obx(() =>
+          cartListController.cartList.length > 0 ?
+              ListView.builder(
+                itemCount: cartListController.cartList.length,
+                scrollDirection: Axis.vertical,
+                itemBuilder: (context, index)
+                {
+                  Cart cartModel = cartListController.cartList[index];
+                  Clothes clothesModel = Clothes(
+                    item_id: cartModel.item_id,
+                    colors: cartModel.colors,
+                    image: cartModel.image,
+                    name: cartModel.name,
+                    price: cartModel.price ,
+                    rating: cartModel.rating,
+                    sizes: cartModel.sizes ,
+                    description: cartModel.description,
+                    tags: cartModel.tags,
+                  );
+                  return SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: Row(
+                      children: [
+                        GetBuilder(
+                            init: CartListController(),
+                            builder: (c)
+                        {
+                          return IconButton(onPressed: (){},
+                              icon: Icon(cartListController.selectedItemList.contains(cartModel.item_id)
+                                  ? Icons.check_box
+                                  : Icons.check_box_outline_blank,
+                                color: cartListController.isSelectedAll
+                                    ? Colors.white
+                                    : Colors.grey,
+                              ));
+                        })
+                      ],
+                    ),
+                  );
+                },
+              )
+              : const Center(
+            child: Text("Cart is Empty"),
+          )
+      ),
+    );
   }
 }
