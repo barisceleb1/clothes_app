@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:html';
 
 import 'package:clothes_app/api_connection/api_connection.dart';
 import 'package:clothes_app/users/controllers/cart_list_controller.dart';
@@ -121,7 +122,11 @@ class _CartListScreenState extends State<CartListScreen> {
                             init: CartListController(),
                             builder: (c)
                         {
-                          return IconButton(onPressed: (){},
+                          return IconButton(onPressed: ()
+                          {
+                            cartListController.addselectedItem(cartModel.item_id!);
+                            calculateTotalAmount();
+                          },
                               icon: Icon(cartListController.selectedItemList.contains(cartModel.item_id)
                                   ? Icons.check_box
                                   : Icons.check_box_outline_blank,
@@ -258,6 +263,44 @@ class _CartListScreenState extends State<CartListScreen> {
               : const Center(
             child: Text("Cart is Empty"),
           )
+      ),
+      bottomNavigationBar: GetBuilder(
+          init: CartListController(),
+          builder:(c)
+      {
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.black,
+            boxShadow: [
+              BoxShadow(
+                offset: Offset(0,Dimensions.minusheight3),
+                color: Colors.white24,
+                blurRadius: 6,
+              ),
+            ],
+          ),
+          padding: EdgeInsets.symmetric(
+            horizontal: Dimensions.height16,
+            vertical: Dimensions.height8,
+
+          ),
+          child: Row(
+            children: [
+              Text("Total Amount:",style: TextStyle(fontSize: Dimensions.height14,
+                  color: Colors.white38,fontWeight: FontWeight.bold),),
+              SizedBox(width: Dimensions.height4,),
+              Obx(() => Text("\$" + cartListController.total.toStringAsFixed(2),
+              maxLines: 1,
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: Dimensions.height20,
+                fontWeight: FontWeight.bold
+              ),))
+            ],
+          ),
+
+        );
+      }
       ),
     );
   }
