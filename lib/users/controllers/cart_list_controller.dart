@@ -18,15 +18,15 @@ class CartListController extends GetxController
   setList(List<Cart> list) {
     _cartList.value = list;
   }
-  addselectedItem(int itemSelectedID) {
-    _selectedItemList.value.add(itemSelectedID);
+  addSelectedItem(int selectedItemCartID) {
+    _selectedItemList.value.add(selectedItemCartID);
     update();
   }
-  deleteSelectedItem(int itemSelectedID) {
-    _selectedItemList.value.remove(itemSelectedID);
+  deleteSelectedItem(int selectedItemCartID) {
+    _selectedItemList.value.remove(selectedItemCartID);
     update();
   }
-  setIsSelectedAll()
+  setIsSelectedAllItems()
   {
     _isSelectedAll.value = !_isSelectedAll.value;
   }

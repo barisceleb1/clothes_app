@@ -131,9 +131,6 @@ class HomeFragmentScreen extends StatelessWidget {
             icon: Icon(Icons.shopping_cart),
             color: Colors.red,
           ),
-          border: OutlineInputBorder(
-              borderSide: BorderSide(
-                  width: Dimensions.height3, color: Colors.red)),
           enabledBorder: OutlineInputBorder(
               borderSide:
                   BorderSide(width: Dimensions.height3, color: Colors.red)),
@@ -166,7 +163,7 @@ class HomeFragmentScreen extends StatelessWidget {
             );
           }
           if (dataSnapshot.data!.length > 0) {
-            return Container(
+            return SizedBox(
               height: Dimensions.height260,
               child: ListView.builder(
                 itemCount: dataSnapshot.data!.length,
@@ -249,7 +246,8 @@ class HomeFragmentScreen extends StatelessWidget {
                                       eachClothItemData.price.toString(),
                                       style: TextStyle(
                                           color: Colors.red,
-                                          fontSize: Dimensions.height18),
+                                          fontSize: Dimensions.height18,
+                                      fontWeight: FontWeight.bold),
                                     )
                                   ],
                                 ),

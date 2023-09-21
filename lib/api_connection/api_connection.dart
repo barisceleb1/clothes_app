@@ -7,19 +7,24 @@ class API {
   static const hostClothes = "$hostConnect/clothes";
   static const hostCart = "$hostConnect/cart";
 
-//signUp-Login user
+  //signUp-Login user
   static const validateEmail = "$hostConnectUser/validate_email.php";
   static const signUp = "$hostConnectUser/signup.php";
   static const login = "$hostConnectUser/login.php";
 
-//login admin
+  //login admin
   static const adminLogin = "$hostConnectAdmin/login.php";
+
   //upload-save new item
   static const uploadNewItem = "$hostUploadItem/upload.php";
-//Clothes
+
+  //Clothes
   static const getTrendingMostPopularClothes = "$hostClothes/trending.php";
   static const getAllClothes = "$hostClothes/all.php";
-// Cart
+
+  //cart
   static const addToCart = "$hostCart/add.php";
   static const getCartList = "$hostCart/read.php";
+  static const deleteSelectedItemsFromCartList = "$hostCart/delete.php";
+  static const updateItemInCartList = "$hostCart/update.php";
 }
