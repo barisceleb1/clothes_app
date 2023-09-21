@@ -227,7 +227,28 @@ class _CartListScreenState extends State<CartListScreen> {
                             ),
 
                           ),
-                        ))
+                        )),
+                        //image
+                        ClipRRect(
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(Dimensions.height22),
+                            bottomRight: Radius.circular(Dimensions.height22),
+                          ),
+                          child: FadeInImage(
+                            height: Dimensions.height150,
+                            width: Dimensions.height150,
+                            fit: BoxFit.cover,
+                            placeholder:
+                            const AssetImage("assets/place_holder.png"),
+                            image: NetworkImage(cartModel.image!) ,
+                            imageErrorBuilder:
+                                (context, error, stackTraceError) {
+                              return const Center(
+                                child: Icon(Icons.broken_image_outlined),
+                              );
+                            },
+                          ),
+                        ),
 
                       ],
                     ),
