@@ -5,6 +5,8 @@ import 'package:clothes_app/users/controllers/cart_list_controller.dart';
 import 'package:clothes_app/users/model/cart.dart';
 import 'package:clothes_app/users/model/clothes.dart';
 import 'package:clothes_app/users/userPreferences/current_user.dart';
+import 'package:clothes_app/utils/dimensions.dart';
+import 'package:clothes_app/widget/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -82,6 +84,12 @@ class _CartListScreenState extends State<CartListScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    getCurrentUserCartList();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
@@ -108,6 +116,7 @@ class _CartListScreenState extends State<CartListScreen> {
                     width: MediaQuery.of(context).size.width,
                     child: Row(
                       children: [
+                        //-----check box------
                         GetBuilder(
                             init: CartListController(),
                             builder: (c)
@@ -120,7 +129,106 @@ class _CartListScreenState extends State<CartListScreen> {
                                     ? Colors.white
                                     : Colors.grey,
                               ));
-                        })
+                        }),
+                        //--------name-------
+                        //--------color size + price--------
+                        //-------image---------
+                        Expanded(child:
+                        GestureDetector(
+                          onTap: ()
+                          {
+
+                          },
+                          child: Container(
+                            margin: EdgeInsets.fromLTRB(0, index == 0 ? Dimensions.height16 : Dimensions.height8, Dimensions.height16 ,
+                                index == cartListController.cartList.length -1 ? Dimensions.height16 : Dimensions.height8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(Dimensions.height20),
+                              color: Colors.black,
+                              boxShadow: const [
+                                BoxShadow(
+                                  offset: Offset(0, 0),
+                                  blurRadius: 6,
+                                  color: Colors.white,
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(child:
+                                Padding(padding:
+                                EdgeInsets.all(Dimensions.height10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SmallText(text: clothesModel.name.toString(),maxLines: 2,color: Colors.grey,
+                                      weight: FontWeight.bold,size: Dimensions.height18,),
+                                    SizedBox(height: Dimensions.height20,),
+                                    //--------color size + price--------
+                                    Row(
+                                      children: [
+                                        Expanded(child: 
+                                        SmallText(text: "Color: ${cartModel.color!.replaceAll('[', '').replaceAll(']', '')}"+ "\n" + "Size: ${cartModel.size!.replaceAll('[', '').replaceAll(']', '')}",
+                                        maxLines: 3,
+                                        color: Colors.white60,),
+                                        ),
+                                        //------price------
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                          left: Dimensions.height12,
+                                          right: Dimensions.height12,
+
+                                        ),
+                                        child: SmallText(text: "\$"+clothesModel.price.toString(),size: Dimensions.height20,
+                                          color: Colors.red,weight: FontWeight.bold,),),
+                                      ],
+                                    ),
+                                    SizedBox(height: Dimensions.height20,),
+                                    //+ -
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        // (-)
+                                        IconButton(onPressed: ()
+                                        {
+
+                                        }, icon: Icon(
+                                          Icons.remove_circle_outline,
+                                          color: Colors.grey,
+                                          size: Dimensions.height30,
+                                        ),),
+                                        SizedBox(width: Dimensions.width10,),
+                                        Text(cartModel.quantity.toString(),
+                                        style: TextStyle(
+                                          color: Colors.red,
+                                          fontSize: Dimensions.height20,
+                                          fontWeight: FontWeight.bold,
+                                        ),),
+                                        SizedBox(width: Dimensions.width10,),
+                                        // (+)
+                                        IconButton(onPressed: ()
+                                        {
+
+                                        }, icon: Icon(
+                                          Icons.add_circle_outline,
+                                          color: Colors.grey,
+                                          size: Dimensions.height30,
+                                        ),),
+
+                                      ],
+                                    )
+
+                                    
+
+                                  ],
+                                ),)
+                                )
+                              ],
+                            ),
+
+                          ),
+                        ))
+
                       ],
                     ),
                   );
