@@ -169,7 +169,7 @@ class _CartListScreenState extends State<CartListScreen> {
 
       actions: [
 
-        //to select all items
+        //---------to select all items-------
         Obx(()=>
             IconButton(
               onPressed: ()
@@ -198,7 +198,7 @@ class _CartListScreenState extends State<CartListScreen> {
             ),
         ),
 
-        //to delete selected item/items
+        //---------to delete selected item/items--------
         GetBuilder(
             init: CartListController(),
             builder: (c)
