@@ -309,7 +309,7 @@ class _CartListScreenState extends State<CartListScreen> {
                             }
                             calculateTotalAmount();
                           },
-                              icon: Icon(cartListController.selectedItemList.contains(cartModel.item_id)
+                              icon: Icon(cartListController.selectedItemList.contains(cartModel.cart_id)
                                   ? Icons.check_box
                                   : Icons.check_box_outline_blank,
                                 color: cartListController.isSelectedAll
