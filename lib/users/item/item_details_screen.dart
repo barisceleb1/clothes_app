@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:clothes_app/api_connection/api_connection.dart';
+import 'package:clothes_app/users/cart/cart_list_screen.dart';
 import 'package:clothes_app/users/controllers/item_details_controller.dart';
 import 'package:clothes_app/users/fragments/dashboard_of_fragments.dart';
 import 'package:clothes_app/users/model/clothes.dart';
@@ -95,7 +96,70 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
           Align(
             alignment: Alignment.bottomCenter,
             child: itemInfoWidget(),
-          )
+          ),
+          //-------3 buttons || back - favorite - shopping cart--------
+          Positioned(
+            top: MediaQuery.of(context).padding.top,
+            left: 0,
+            right: 0,
+            child: Container(
+              color: Colors.transparent,
+              child: Row(
+                children: [
+
+                  //back
+                  IconButton(
+                    onPressed: ()
+                    {
+                      Get.back();
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.purpleAccent,
+                    ),
+                  ),
+
+                  const Spacer(),
+
+                  //favorite
+                  Obx(()=> IconButton(
+                    onPressed: ()
+                    {
+                      if(itemDetailsController.isFavorite == true)
+                      {
+                        //delete item from favorites
+                      //  deleteItemFromFavoriteList();
+                      }
+                      else
+                      {
+                        //save item to user favorites
+                     //   addItemToFavoriteList();
+                      }
+                    },
+                    icon: Icon(
+                      itemDetailsController.isFavorite
+                          ? Icons.bookmark
+                          : Icons.bookmark_border_outlined,
+                      color: Colors.purpleAccent,
+                    ),
+                  )),
+
+                  //shopping cart icon
+                  IconButton(
+                    onPressed: ()
+                    {
+                      Get.to(CartListScreen());
+                    },
+                    icon: const Icon(
+                      Icons.shopping_cart,
+                      color: Colors.purpleAccent,
+                    ),
+                  ),
+
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
