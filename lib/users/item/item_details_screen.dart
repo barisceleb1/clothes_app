@@ -71,6 +71,81 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
 
   }
 
+  validateFavoriteList()async
+    {
+      try
+          {
+            var res = await http.post(
+              Uri.parse(API.validateFavorite),
+              body: {
+                'user_id': currentOnlineUser.user.user_id.toString(),
+                'item_id': widget.itemInfo!.item_id.toString(),
+              },
+            );
+            if (res.statusCode == 200) {
+              var resBodyOfValidateFavorite = jsonDecode(res.body);
+              print("Giriş başarılı");
+              if (resBodyOfValidateFavorite['favoriteFound'] == true)
+              {
+                Fluttertoast.showToast(
+                    msg: 'item saved to Favorite List Succesfully');
+
+              }
+              else
+              {
+                Fluttertoast.showToast(msg: 'Item not saved to Favorite List');
+              }
+            }
+            else{
+              Fluttertoast.showToast(msg: "Status is not 200");
+            }
+
+          }
+      catch(errMsg)
+      {
+        print("Error: "+ errMsg.toString());
+      }
+
+
+    }
+  addItemToFavoriteList()async
+  {
+    try
+    {
+      var res = await http.post(
+        Uri.parse(API.addFavorite),
+        body: {
+          'user_id': currentOnlineUser.user.user_id.toString(),
+          'item_id': widget.itemInfo!.item_id.toString(),
+        },
+      );
+      if (res.statusCode == 200) {
+        var resBodyOfAddFavorite = jsonDecode(res.body);
+        print("Giriş başarılı");
+        if (resBodyOfAddFavorite['success'] == true)
+        {
+          Fluttertoast.showToast(
+              msg: 'item saved to Favorite List Succesfully');
+
+        }
+        else
+        {
+          Fluttertoast.showToast(msg: 'Item not saved to Favorite List');
+        }
+      }
+      else{
+        Fluttertoast.showToast(msg: "Status is not 200");
+      }
+
+    }
+    catch(errMsg)
+    {
+      print("Error: "+ errMsg.toString());
+    }
+
+
+  }
+
 
   @override
   Widget build(BuildContext context) {

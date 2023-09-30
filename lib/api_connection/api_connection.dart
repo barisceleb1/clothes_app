@@ -30,8 +30,8 @@ class API {
   static const updateItemInCartList = "$hostCart/update.php";
 
   //favorite
-  static const addFavorite = "$hostCart/validate_favorite.php";
-  static const deleteToCart = "$hostCart/add.php";
+  static const validateFavorite = "$hostCart/validate_favorite.php";
+  static const addFavorite = "$hostCart/add.php";
   static const deleteFavorite= "$hostCart/delete.php";
 
 
