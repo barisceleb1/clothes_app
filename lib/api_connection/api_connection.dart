@@ -6,6 +6,7 @@ class API {
   static const hostUploadItem = "$hostConnect/items";
   static const hostClothes = "$hostConnect/clothes";
   static const hostCart = "$hostConnect/cart";
+  static const hostFavorite = "$hostConnect/favorite";
 
   //signUp-Login user
   static const validateEmail = "$hostConnectUser/validate_email.php";
@@ -27,4 +28,11 @@ class API {
   static const getCartList = "$hostCart/read.php";
   static const deleteSelectedItemsFromCartList = "$hostCart/delete.php";
   static const updateItemInCartList = "$hostCart/update.php";
+
+  //favorite
+  static const addFavorite = "$hostCart/validate_favorite.php";
+  static const deleteToCart = "$hostCart/add.php";
+  static const deleteFavorite= "$hostCart/delete.php";
+
+
 }
