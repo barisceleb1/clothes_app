@@ -78,8 +78,8 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
             var res = await http.post(
               Uri.parse(API.validateFavorite),
               body: {
-                'user_id': currentOnlineUser.user.user_id.toString(),
-                'item_id': widget.itemInfo!.item_id.toString(),
+                "user_id": currentOnlineUser.user.user_id.toString(),
+                "item_id": widget.itemInfo!.item_id.toString(),
               },
             );
             if (res.statusCode == 200) {
@@ -88,12 +88,15 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
               if (resBodyOfValidateFavorite['favoriteFound'] == true)
               {
                 Fluttertoast.showToast(
-                    msg: 'item saved to Favorite List Succesfully');
+                    msg: 'item is in Favorite List');
+
+                itemDetailsController.setIsFavorite(true);
 
               }
               else
               {
-                Fluttertoast.showToast(msg: 'Item not saved to Favorite List');
+                Fluttertoast.showToast(msg: 'Item is Not in Favorite List Now');
+                itemDetailsController.setIsFavorite(false);
               }
             }
             else{
@@ -115,8 +118,8 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
       var res = await http.post(
         Uri.parse(API.addFavorite),
         body: {
-          'user_id': currentOnlineUser.user.user_id.toString(),
-          'item_id': widget.itemInfo!.item_id.toString(),
+          "user_id": currentOnlineUser.user.user_id.toString(),
+          "item_id": widget.itemInfo!.item_id.toString(),
         },
       );
       if (res.statusCode == 200) {
@@ -125,12 +128,14 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
         if (resBodyOfAddFavorite['success'] == true)
         {
           Fluttertoast.showToast(
-              msg: 'item saved to Favorite List Succesfully');
+              msg: 'item saved to your Favorite List Succesfully');
+
+          validateFavoriteList();
 
         }
         else
         {
-          Fluttertoast.showToast(msg: 'Item not saved to Favorite List');
+          Fluttertoast.showToast(msg: 'Item not saved to your Favorite List');
         }
       }
       else{
@@ -145,7 +150,50 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
 
 
   }
+  deleteItemFromFavoriteList()async
+  {
+    try
+    {
+      var res = await http.post(
+        Uri.parse(API.deleteFavorite),
+        body: {
+          "user_id": currentOnlineUser.user.user_id.toString(),
+          "item_id": widget.itemInfo!.item_id.toString(),
+        },
+      );
+      if (res.statusCode == 200) {
+        var resBodyOfAddFavorite = jsonDecode(res.body);
+        print("Giriş başarılı");
+        if (resBodyOfAddFavorite['success'] == true)
+        {
+          Fluttertoast.showToast(
+              msg: 'item Deleted from your Favorite List ');
 
+          validateFavoriteList();
+
+        }
+        else
+        {
+          Fluttertoast.showToast(msg: 'Item Not deleted from your Favorite List');
+        }
+      }
+      else{
+        Fluttertoast.showToast(msg: "Status is not 200");
+      }
+
+    }
+    catch(errMsg)
+    {
+      print("Error: "+ errMsg.toString());
+    }
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    validateFavoriteList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -203,12 +251,12 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                       if(itemDetailsController.isFavorite == true)
                       {
                         //delete item from favorites
-                      //  deleteItemFromFavoriteList();
+                        deleteItemFromFavoriteList();
                       }
                       else
                       {
                         //save item to user favorites
-                     //   addItemToFavoriteList();
+                        addItemToFavoriteList();
                       }
                     },
                     icon: Icon(
