@@ -87,15 +87,11 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
               print("Giriş başarılı");
               if (resBodyOfValidateFavorite['favoriteFound'] == true)
               {
-                Fluttertoast.showToast(
-                    msg: 'item is in Favorite List');
-
                 itemDetailsController.setIsFavorite(true);
 
               }
               else
               {
-                Fluttertoast.showToast(msg: 'Item is Not in Favorite List Now');
                 itemDetailsController.setIsFavorite(false);
               }
             }
