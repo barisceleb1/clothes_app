@@ -70,10 +70,157 @@ final currentOnlineUser= Get.put(CurrentUser());
               ),),),
             SizedBox(height: Dimensions.height24,),
             //------------displaying favoriteList------------
+            favoriteListItemDesignWidget(context),
           ],
       ),
 
 
     );
   }
+
+favoriteListItemDesignWidget(context) {
+  return FutureBuilder(
+      future: getCurrentUserFavoriteList(),
+      builder: (context, AsyncSnapshot<List<Favorite>> dataSnapshot) {
+        if (dataSnapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (dataSnapshot.data == null) {
+          return const Center(
+            child: Text(
+              "Not favorite item found",
+              style: TextStyle(color: Colors.grey),
+            ),
+          );
+        }
+        if (dataSnapshot.data!.length > 0) {
+          return ListView.builder(
+              itemCount: dataSnapshot.data!.length,
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                Favorite eachFavoriteItemRecord = dataSnapshot.data![index];
+                return GestureDetector(
+                  onTap: () {
+                   // Get.to(ItemDetailsScreen(itemInfo: eachClothItemRecord,));
+                  },
+                  child: Container(
+                    margin: EdgeInsets.fromLTRB(
+                        Dimensions.height16,
+                        index == 0 ? Dimensions.height16 : Dimensions.height8,
+                        Dimensions.height16,
+                        index == dataSnapshot.data!.length - 1
+                            ? Dimensions.height16
+                            : Dimensions.height8),
+                    decoration: BoxDecoration(
+                        borderRadius:
+                        BorderRadius.circular(Dimensions.height20),
+                        color: Colors.black,
+                        boxShadow: const [
+                          BoxShadow(
+                              offset: Offset(0, 0),
+                              blurRadius: 6,
+                              color: Colors.grey),
+                        ]),
+                    child: Row(
+                      children:
+                      //--------name+price-------
+                      //tags
+                      [
+                        Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                left: Dimensions.height15,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  //----------name and price---------
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          eachFavoriteItemRecord.name!,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontSize: Dimensions.height18,
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      //-----------Price------------
+                                      Padding(
+                                        padding: EdgeInsets.only(left: Dimensions.height12,right: Dimensions.height12),
+                                        child: Text(
+                                          "\₺" +
+                                              eachFavoriteItemRecord.price.toString(),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontSize: Dimensions.height18,
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: Dimensions.height16,
+                                  ),
+                                  Text(
+                                    "Tags: \n" +
+                                        eachFavoriteItemRecord.tags
+                                            .toString()
+                                            .replaceAll("[", "")
+                                            .replaceAll("]", ""),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize: Dimensions.height12,
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )),
+                        //------image clothes--------
+                        ClipRRect(
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(Dimensions.height20),
+                            bottomRight: Radius.circular(Dimensions.height20),
+                          ),
+                          child: FadeInImage(
+                            height: Dimensions.height130,
+                            width: Dimensions.height130,
+                            fit: BoxFit.cover,
+                            placeholder:
+                            const AssetImage("assets/place_holder.png"),
+                            image: NetworkImage(eachFavoriteItemRecord.image!),
+                            imageErrorBuilder:
+                                (context, error, stackTraceError) {
+                              return const Center(
+                                child: Icon(Icons.broken_image_outlined),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              });
+        } else {
+          return const Center(
+            child: Text("Empty no data"),
+          );
+        }
+      });
+}
 }
