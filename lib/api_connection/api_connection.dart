@@ -18,7 +18,7 @@ class API {
 
   //items
   static const uploadNewItem = "$hostItem/upload.php";
-  static const sarchItems = '$hostItem/search.php';
+  static const searchItems = '$hostItem/search.php';
 
   //Clothes
   static const getTrendingMostPopularClothes = "$hostClothes/trending.php";
