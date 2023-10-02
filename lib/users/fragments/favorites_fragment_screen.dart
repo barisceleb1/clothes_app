@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 
+
 import 'package:clothes_app/api_connection/api_connection.dart';
 import 'package:clothes_app/users/model/favorite.dart';
 import 'package:clothes_app/users/userPreferences/current_user.dart';
@@ -10,8 +11,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart'as http;
 
+
 class FavoritesFragmentScreen extends StatelessWidget {
+
 final currentOnlineUser= Get.put(CurrentUser());
+
  Future<List<Favorite>> getCurrentUserFavoriteList() async
   {
     List<Favorite> favoriteListOfCurrentUser = [];
@@ -31,7 +35,7 @@ final currentOnlineUser= Get.put(CurrentUser());
 
         if(responseBodyOfCurrentUserFavoriteListItems['success'] == true )
         {
-          (responseBodyOfCurrentUserFavoriteListItems['currentUserCartData'] as List).forEach((eachCurrentUserFavoriteItemData )
+          (responseBodyOfCurrentUserFavoriteListItems['currentUserFavoriteData'] as List).forEach((eachCurrentUserFavoriteItemData )
           {
             favoriteListOfCurrentUser.add(Favorite.fromJson(eachCurrentUserFavoriteItemData));
 
@@ -43,9 +47,9 @@ final currentOnlineUser= Get.put(CurrentUser());
         Fluttertoast.showToast(msg: "Status Code is not 200");
       }
     }
-    catch(errMsg)
+    catch(errorMsg)
     {
-      Fluttertoast.showToast(msg: "Error:"+errMsg.toString());
+      Fluttertoast.showToast(msg: "Error:"+errorMsg.toString());
     }
     return favoriteListOfCurrentUser;
   }
@@ -62,8 +66,8 @@ final currentOnlineUser= Get.put(CurrentUser());
               fontSize: Dimensions.height30,
               fontWeight: FontWeight.bold,
             ),),),
-            Padding(padding: EdgeInsets.fromLTRB(Dimensions.height16, Dimensions.height24, Dimensions.height8, Dimensions.height8),
-              child: Text("My Favorite List", style: TextStyle(
+            Padding(padding: EdgeInsets.fromLTRB(16, 24, 8, 8),
+              child: Text("Order these best clothes for yourself now.", style: TextStyle(
                 color: Colors.grey,
                 fontSize: Dimensions.height16,
                 fontWeight: FontWeight.w300,
@@ -81,13 +85,15 @@ final currentOnlineUser= Get.put(CurrentUser());
 favoriteListItemDesignWidget(context) {
   return FutureBuilder(
       future: getCurrentUserFavoriteList(),
-      builder: (context, AsyncSnapshot<List<Favorite>> dataSnapshot) {
-        if (dataSnapshot.connectionState == ConnectionState.waiting) {
+      builder: (context, AsyncSnapshot<List<Favorite>> dataSnapShot)
+      {
+        if (dataSnapShot.connectionState == ConnectionState.waiting) {
           return const Center(
             child: CircularProgressIndicator(),
           );
         }
-        if (dataSnapshot.data == null) {
+        if (dataSnapShot.data == null)
+        {
           return const Center(
             child: Text(
               "Not favorite item found",
@@ -95,14 +101,14 @@ favoriteListItemDesignWidget(context) {
             ),
           );
         }
-        if (dataSnapshot.data!.length > 0) {
+        if (dataSnapShot.data!.length > 0) {
           return ListView.builder(
-              itemCount: dataSnapshot.data!.length,
+              itemCount: dataSnapShot.data!.length,
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
-                Favorite eachFavoriteItemRecord = dataSnapshot.data![index];
+                Favorite eachFavoriteItemRecord = dataSnapShot.data![index];
                 return GestureDetector(
                   onTap: () {
                    // Get.to(ItemDetailsScreen(itemInfo: eachClothItemRecord,));
@@ -112,7 +118,7 @@ favoriteListItemDesignWidget(context) {
                         Dimensions.height16,
                         index == 0 ? Dimensions.height16 : Dimensions.height8,
                         Dimensions.height16,
-                        index == dataSnapshot.data!.length - 1
+                        index == dataSnapShot.data!.length - 1
                             ? Dimensions.height16
                             : Dimensions.height8),
                     decoration: BoxDecoration(
@@ -126,10 +132,10 @@ favoriteListItemDesignWidget(context) {
                               color: Colors.grey),
                         ]),
                     child: Row(
-                      children:
+                      children:[
                       //--------name+price-------
-                      //tags
-                      [
+                      //--------tags---------
+
                         Expanded(
                             child: Padding(
                               padding: EdgeInsets.only(
@@ -184,7 +190,6 @@ favoriteListItemDesignWidget(context) {
                                     style: TextStyle(
                                       fontSize: Dimensions.height12,
                                       color: Colors.grey,
-                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ],
@@ -218,9 +223,10 @@ favoriteListItemDesignWidget(context) {
               });
         } else {
           return const Center(
-            child: Text("Empty no data"),
+            child: Text("Empty no data",style: TextStyle(color: Colors.white),),
           );
         }
-      });
+      }
+      );
 }
 }

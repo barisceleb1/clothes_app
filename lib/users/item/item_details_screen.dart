@@ -259,7 +259,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                       itemDetailsController.isFavorite
                           ? Icons.bookmark
                           : Icons.bookmark_border_outlined,
-                      color: Colors.purpleAccent,
+                      color: Colors.red,
                     ),
                   )),
 
@@ -271,7 +271,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                     },
                     icon: const Icon(
                       Icons.shopping_cart,
-                      color: Colors.purpleAccent,
+                      color: Colors.red,
                     ),
                   ),
 
