@@ -3,6 +3,8 @@ import 'dart:convert';
 
 
 import 'package:clothes_app/api_connection/api_connection.dart';
+import 'package:clothes_app/users/item/item_details_screen.dart';
+import 'package:clothes_app/users/model/clothes.dart';
 import 'package:clothes_app/users/model/favorite.dart';
 import 'package:clothes_app/users/userPreferences/current_user.dart';
 import 'package:clothes_app/utils/dimensions.dart';
@@ -109,9 +111,25 @@ favoriteListItemDesignWidget(context) {
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 Favorite eachFavoriteItemRecord = dataSnapShot.data![index];
+
+                Clothes clickedClothItem = Clothes(
+                  item_id: eachFavoriteItemRecord.item_id,
+                  colors: eachFavoriteItemRecord.colors,
+                  image: eachFavoriteItemRecord.image,
+                  name: eachFavoriteItemRecord.name,
+                  price: eachFavoriteItemRecord.price,
+                  rating: eachFavoriteItemRecord.rating,
+                  sizes: eachFavoriteItemRecord.sizes,
+                  description: eachFavoriteItemRecord.description,
+                  tags: eachFavoriteItemRecord.tags,
+
+
+
+                );
+
                 return GestureDetector(
                   onTap: () {
-                   // Get.to(ItemDetailsScreen(itemInfo: eachClothItemRecord,));
+                    Get.to(ItemDetailsScreen(itemInfo: clickedClothItem,));
                   },
                   child: Container(
                     margin: EdgeInsets.fromLTRB(

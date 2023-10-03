@@ -117,7 +117,7 @@ class HomeFragmentScreen extends StatelessWidget {
           prefixIcon: IconButton(
               onPressed: () {
 
-                Get.to(SearchItems(typeKeywords: searchController.text));
+                Get.to(SearchItems(typedKeyWords: searchController.text));
               },
               icon: Icon(
                 Icons.search,
