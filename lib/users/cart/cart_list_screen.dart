@@ -2,6 +2,7 @@ import 'dart:convert';
 
 
 import 'package:clothes_app/api_connection/api_connection.dart';
+import 'package:clothes_app/order/order_now_screen.dart';
 import 'package:clothes_app/users/controllers/cart_list_controller.dart';
 import 'package:clothes_app/users/model/cart.dart';
 import 'package:clothes_app/users/model/clothes.dart';
@@ -75,7 +76,7 @@ class _CartListScreenState extends State<CartListScreen> {
       {
         cartListController.cartList.forEach((itemInCart)
         {
-          if(cartListController.selectedItemList.contains(itemInCart.item_id))
+          if(cartListController.selectedItemList.contains(itemInCart.cart_id))
             {
               double eachItemTotalAmount = (itemInCart.price!) * (double.parse(itemInCart.quantity.toString()));
 
@@ -152,6 +153,34 @@ class _CartListScreenState extends State<CartListScreen> {
       Fluttertoast.showToast(msg: "Error: " + errorMessage.toString());
     }
   }
+  List<Map<String, dynamic>> getSelectedCartListItemsInformation()
+  {
+    List<Map<String, dynamic>> selectedCartListItemsInformation = [];
+
+    if(cartListController.selectedItemList.length > 0)
+      {
+        cartListController.cartList.forEach((selectedCartListItem) {
+          if(cartListController.selectedItemList.contains(selectedCartListItem.cart_id))
+            {
+              Map<String, dynamic> itemInformation =
+                  {
+                    "item_id": selectedCartListItem.item_id,
+                    "name" : selectedCartListItem.name,
+                    "image":selectedCartListItem.image,
+                    "color":selectedCartListItem.color,
+                    "size" :selectedCartListItem.size,
+                    "quantity" : selectedCartListItem.quantity,
+                    "totalAmount": selectedCartListItem.price! * selectedCartListItem.quantity!
+
+                  };
+              selectedCartListItemsInformation.add(itemInformation);
+            }
+
+        });
+      }
+    return selectedCartListItemsInformation;
+  }
+
 
   @override
   void initState() {
@@ -457,6 +486,7 @@ class _CartListScreenState extends State<CartListScreen> {
             child: Text("Cart is Empty"),
           )
       ),
+      //-------Total Amount and Order Now---------
       bottomNavigationBar: GetBuilder(
           init: CartListController(),
           builder:(c)
@@ -501,6 +531,13 @@ class _CartListScreenState extends State<CartListScreen> {
                 child: InkWell(
                   onTap: ()
                   {
+                    cartListController.selectedItemList.length > 0 ? Get.to(OrderNowScreen(
+                      selectedCartListItem:getSelectedCartListItemsInformation()  ,
+                      totalAmount: cartListController.total,
+                      selectedCartIDs: cartListController.selectedItemList
+
+
+                    )) : null;
 
                   },
                   child: const Padding(
