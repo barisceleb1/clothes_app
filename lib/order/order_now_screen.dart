@@ -18,11 +18,19 @@ class OrderNowScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: const Text("Order Now"),
+
+      ),
       backgroundColor: Colors.black,
       body: ListView(
         children: [
+          //--------display selected items from cart List----------
+          SizedBox(height: Dimensions.height30,),
+
           //----------delivery system-----------
-           Padding(
+          Padding(
               padding: EdgeInsets.symmetric(horizontal: Dimensions.height16),
              child: Text(
                  "Delivery System:", style: TextStyle(
@@ -37,7 +45,13 @@ class OrderNowScreen extends StatelessWidget {
             children: deliverySystemNamesList.map((deliverySystemName)
             {
               return Obx(() =>
-                  RadioListTile<String>(value: deliverySystemName, dense: true, activeColor:Colors.red, groupValue: orderNowController.deliverySys, onChanged: (newDeliverySystemValue)
+                  RadioListTile<String>(value: deliverySystemName,
+                      dense: true,
+                      tileColor: Colors.white24,
+                      activeColor:Colors.red,
+                      groupValue: orderNowController.deliverySys,
+                      title: Text(deliverySystemName,style: TextStyle(fontSize: Dimensions.height16,color: Colors.white38),),
+                      onChanged: (newDeliverySystemValue)
                   {
                     orderNowController.setDeliverySystem(newDeliverySystemValue!);
                   }
@@ -52,6 +66,7 @@ class OrderNowScreen extends StatelessWidget {
 
 
           ),
+          SizedBox(height: Dimensions.height30,),
 
           //---------payment system ------------
           Padding(
@@ -69,9 +84,12 @@ class OrderNowScreen extends StatelessWidget {
               children: paymentSystemNamesList.map((paymentSystemName)
               {
                 return Obx(() =>
-                    RadioListTile<String>(value: paymentSystemName,
+                    RadioListTile<String>(
+                        value: paymentSystemName,
+                        tileColor: Colors.white24,
                         dense: true,
                         activeColor:Colors.red,
+                        title: Text(paymentSystemName,style: TextStyle(fontSize: Dimensions.height16,color: Colors.white38),),
                         groupValue: orderNowController.paymentSys,
                         onChanged: (newPaymentSystemValue)
                     {

@@ -17,7 +17,7 @@ class OrderNowController extends GetxController
   {
     _paymentSystem.value = newPaymentSystem;
   }
-  S
+
 
 
 
