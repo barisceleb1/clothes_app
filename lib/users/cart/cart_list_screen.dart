@@ -529,10 +529,10 @@ class _CartListScreenState extends State<CartListScreen> {
                     : Colors.white24,
                 borderRadius: BorderRadius.circular(30),
                 child: InkWell(
-                  onTap: ()
+                  onTap:()
                   {
                     cartListController.selectedItemList.length > 0 ? Get.to(OrderNowScreen(
-                      selectedCartListItem:getSelectedCartListItemsInformation()  ,
+                      selectedCartListItem:getSelectedCartListItemsInformation(),
                       totalAmount: cartListController.total,
                       selectedCartIDs: cartListController.selectedItemList
 
