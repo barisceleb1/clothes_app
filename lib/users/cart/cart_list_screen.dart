@@ -170,7 +170,8 @@ class _CartListScreenState extends State<CartListScreen> {
                     "color":selectedCartListItem.color,
                     "size" :selectedCartListItem.size,
                     "quantity" : selectedCartListItem.quantity,
-                    "totalAmount": selectedCartListItem.price! * selectedCartListItem.quantity!
+                    "totalAmount": selectedCartListItem.price! * selectedCartListItem.quantity!,
+                    'price': selectedCartListItem.price! ,
 
                   };
               selectedCartListItemsInformation.add(itemInformation);
