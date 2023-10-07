@@ -532,7 +532,7 @@ class _CartListScreenState extends State<CartListScreen> {
                   onTap:()
                   {
                     cartListController.selectedItemList.length > 0 ? Get.to(OrderNowScreen(
-                      selectedCartListItem:getSelectedCartListItemsInformation(),
+                      selectedCartListItemsInfo:getSelectedCartListItemsInformation(),
                       totalAmount: cartListController.total,
                       selectedCartIDs: cartListController.selectedItemList
 
