@@ -1,3 +1,4 @@
+import 'package:clothes_app/order/order_confirmation.dart';
 import 'package:clothes_app/users/controllers/order_now_controller.dart';
 import 'package:clothes_app/utils/dimensions.dart';
 import 'package:flutter/material.dart';
@@ -20,9 +21,9 @@ class OrderNowScreen extends StatelessWidget {
     "Google Pay"
   ];
 
-  TextEditingController phpneNumberController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
   TextEditingController shipmentAddressController = TextEditingController();
-  TextEditingController notToSellerController = TextEditingController();
+  TextEditingController noteToSellerController = TextEditingController();
 
   OrderNowScreen(
       {this.selectedCartListItemsInfo, this.totalAmount, this.selectedCartIDs});
@@ -254,7 +255,23 @@ class OrderNowScreen extends StatelessWidget {
               color: Colors.red,
               borderRadius: BorderRadius.circular(Dimensions.height30),
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  if(phoneNumberController.text == "" && shipmentAddressController == ""){
+
+                    Get.to(OrderConfirmationScreen(
+                      selectedCartIDs: selectedCartIDs,
+                      selectedCartListItemsInfo: selectedCartListItemsInfo,
+                      totalAmount:totalAmount,
+                      deliverySystem: orderNowController.deliverySys,
+                      paymentSystem: orderNowController.paymentSys,
+                      phoneNumber: phoneNumberController.text,
+                      shipmentAddress: shipmentAddressController.text,
+                      note: noteToSellerController.text,
+
+                    ));
+                  }
+
+                },
                 borderRadius: BorderRadius.circular(Dimensions.height30),
                 child: Padding(
                   padding: EdgeInsets.symmetric(
