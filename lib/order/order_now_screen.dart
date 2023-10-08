@@ -2,6 +2,7 @@ import 'package:clothes_app/order/order_confirmation.dart';
 import 'package:clothes_app/users/controllers/order_now_controller.dart';
 import 'package:clothes_app/utils/dimensions.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class OrderNowScreen extends StatelessWidget {
@@ -151,7 +152,7 @@ class OrderNowScreen extends StatelessWidget {
                 Dimensions.height8, Dimensions.height16, Dimensions.height16),
             child: TextField(
               style: TextStyle(color: Colors.white54),
-              controller: phpneNumberController,
+              controller: phoneNumberController,
               decoration: InputDecoration(
                 hintText: 'Any Contact Number.',
                 hintStyle: TextStyle(color: Colors.white24),
@@ -227,7 +228,7 @@ class OrderNowScreen extends StatelessWidget {
                 Dimensions.height8, Dimensions.height16, Dimensions.height16),
             child: TextField(
               style: TextStyle(color: Colors.white54),
-              controller: notToSellerController,
+              controller: noteToSellerController,
               decoration: InputDecoration(
                 hintText: 'Any note you want to write to seller..',
                 hintStyle: TextStyle(color: Colors.white24),
@@ -256,7 +257,7 @@ class OrderNowScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(Dimensions.height30),
               child: InkWell(
                 onTap: () {
-                  if(phoneNumberController.text == "" && shipmentAddressController == ""){
+                  if(phoneNumberController.text.isNotEmpty && shipmentAddressController.text.isNotEmpty){
 
                     Get.to(OrderConfirmationScreen(
                       selectedCartIDs: selectedCartIDs,
@@ -270,6 +271,10 @@ class OrderNowScreen extends StatelessWidget {
 
                     ));
                   }
+                  else
+                    {
+                      Fluttertoast.showToast(msg: "Please complete the form");
+                    }
 
                 },
                 borderRadius: BorderRadius.circular(Dimensions.height30),

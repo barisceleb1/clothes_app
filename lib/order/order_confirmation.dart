@@ -17,6 +17,16 @@ class OrderConfirmationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+     backgroundColor: Colors.black,
+     body: Center(
+      child: Column(
+       mainAxisAlignment: MainAxisAlignment.center,
+       children: [
+        Image.asset("name")
+       ],
+      ),
+     ),
+    );
   }
 }
