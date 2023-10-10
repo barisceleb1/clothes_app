@@ -41,6 +41,16 @@ class OrderConfirmationScreen extends StatelessWidget {
   _imageSelectedName.value = selectedImageName;
  }
 
+ chooseImageFromGallery() async {
+  final pickedImageXFile = await _picker.pickImage(source: ImageSource.gallery);
+  if(pickedImageXFile != null)
+   {
+    final bytesOfImage = await pickedImageXFile.readAsBytes();
+    setSelectedImage(bytesOfImage);
+   }
+
+ }
+
 
 
   @override
@@ -74,7 +84,7 @@ class OrderConfirmationScreen extends StatelessWidget {
          child: InkWell(
           onTap: ()
           {
-          // chooseImageFromGallery();
+           chooseImageFromGallery();
           },
           borderRadius: BorderRadius.circular(Dimensions.circular30),
           child:  Padding(
