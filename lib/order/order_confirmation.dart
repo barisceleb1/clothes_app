@@ -67,7 +67,7 @@ class OrderConfirmationScreen extends StatelessWidget {
    note: note,
    totalAmount: totalAmount,
    image: imageSelectedName,
-   status: "",
+   status: "new",
    dateTime: DateTime.now(),
    shipmentAddress: shipmentAddress,
    phoneNumber: phoneNumber,
