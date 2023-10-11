@@ -7,6 +7,7 @@ class API {
   static const hostClothes = "$hostConnect/clothes";
   static const hostCart = "$hostConnect/cart";
   static const hostFavorite = "$hostConnect/favorite";
+  static const hostOrder = "$hostConnect/order";
 
   //signUp-Login user
   static const validateEmail = "$hostConnectUser/validate_email.php";
@@ -36,5 +37,6 @@ class API {
   static const deleteFavorite= "$hostFavorite/delete.php";
   static const readFavorite= "$hostFavorite/read.php";
 
-
+  //order
+  static const addOrder = "$hostOrder/add.php";
 }

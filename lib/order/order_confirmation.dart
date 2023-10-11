@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:clothes_app/api_connection/api_connection.dart';
+import 'package:clothes_app/users/model/order.dart';
 import 'package:clothes_app/users/userPreferences/current_user.dart';
 import 'package:clothes_app/utils/dimensions.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart'as path;
+import 'package:http/http.dart'as http;
 
 class OrderConfirmationScreen extends StatelessWidget {
 
@@ -50,6 +54,40 @@ class OrderConfirmationScreen extends StatelessWidget {
     setSelectedImage(bytesOfImage);
     setSelectedImageName(path.basename(pickedImageXFile.path));
    }
+
+ }
+ saveNewOrderInfo() async
+ {
+  String selectedItemString = selectedCartListItemsInfo!.map((eachSelectedItem) => jsonEncode(eachSelectedItem)).toList().join("||");
+  Order order = Order(
+  order_id: 1,
+  user_id: currentUser.user.user_id,
+  deliverySystem: deliverySystem,
+   paymentSystem: paymentSystem,
+   note: note,
+   totalAmount: totalAmount,
+   image: imageSelectedName,
+   status: "",
+   dateTime: DateTime.now(),
+   shipmentAddress: shipmentAddress,
+   phoneNumber: phoneNumber,
+
+
+ );
+  try
+  {
+   var res = await http.post(
+    Uri.parse(API.addOrder),
+    body: order.toJson(base64Encode(imageSelectedByte)),
+
+
+   );
+
+  }
+  catch(errorMsg)
+  {
+   Fluttertoast.showToast(msg:"Error: "+ errorMsg.toString() );
+  }
 
  }
 
