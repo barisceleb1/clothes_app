@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart'as path;
 
 class OrderConfirmationScreen extends StatelessWidget {
 
@@ -47,6 +48,7 @@ class OrderConfirmationScreen extends StatelessWidget {
    {
     final bytesOfImage = await pickedImageXFile.readAsBytes();
     setSelectedImage(bytesOfImage);
+    setSelectedImageName(path.basename(pickedImageXFile.path));
    }
 
  }
@@ -84,6 +86,14 @@ class OrderConfirmationScreen extends StatelessWidget {
          child: InkWell(
           onTap: ()
           {
+           if(imageSelectedByte.length > 0)
+            {
+             //save order Info
+            }
+           else
+            {
+             Fluttertoast.showToast(msg: "Please attach the trasaction proof / screenshot.");
+            }
            chooseImageFromGallery();
           },
           borderRadius: BorderRadius.circular(Dimensions.circular30),
