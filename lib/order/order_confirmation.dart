@@ -66,7 +66,7 @@ class OrderConfirmationScreen extends StatelessWidget {
    paymentSystem: paymentSystem,
    note: note,
    totalAmount: totalAmount,
-   image: imageSelectedName,
+   image: DateTime.now().millisecondsSinceEpoch.toString()+imageSelectedName +"-",
    status: "new",
    dateTime: DateTime.now(),
    shipmentAddress: shipmentAddress,
@@ -79,10 +79,22 @@ class OrderConfirmationScreen extends StatelessWidget {
    var res = await http.post(
     Uri.parse(API.addOrder),
     body: order.toJson(base64Encode(imageSelectedByte)),
-
-
    );
+   if(res.statusCode == 200)
+    {
+     var responseBodyOfAddNewOrder = json.decode(res.body);
+     
+     if(responseBodyOfAddNewOrder["success"] == true)
+      {
+       Fluttertoast.showToast(msg: "Your new order has been placed Successfully.");
 
+      //------delete selected items from user cart-------
+      }
+     else
+      {
+       Fluttertoast.showToast(msg: "Error:: \n your new order do NOT placed");
+      }
+    }
   }
   catch(errorMsg)
   {

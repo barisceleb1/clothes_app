@@ -27,8 +27,8 @@ class Order {
       this.phoneNumber});
 
   Map<String, dynamic> toJson(String imageSelectedBase64) => {
-        "order_id": order_id,
-        "user_id": user_id,
+        "order_id": order_id.toString(),
+        "user_id": user_id.toString(),
         "selectedItems": selectedItems,
         "deliverySystem": deliverySystem,
         "paymentSystem": paymentSystem,
