@@ -88,11 +88,11 @@ class OrderConfirmationScreen extends StatelessWidget {
 
     if(responseBodyOfAddNewOrder["success"] == true)
     {
-     Fluttertoast.showToast(msg: "Your new orderhas been placed Successfully");
-     /*selectedCartIDs!.forEach((eachSelectedItemCartID)
+
+     selectedCartIDs!.forEach((eachSelectedItemCartID)
        {
         deleteSelectedItemsFromUserCartList(eachSelectedItemCartID);
-       });*/
+       });
      //------delete selected items from user cart-------
     }
     else
@@ -125,7 +125,7 @@ class OrderConfirmationScreen extends StatelessWidget {
 
     if(responseBodyFromDeleteCart["success"] == true)
     {
-     Fluttertoast.showToast(msg: "your new order has been placed Successfully.");
+     Fluttertoast.showToast(msg: "Your new order has been placed Successfully.");
 
      Get.to(DashboardOfFragments());
     }
