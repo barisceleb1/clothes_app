@@ -1,4 +1,5 @@
-class Order {
+class Order
+{
   int? order_id;
   int? user_id;
   String? selectedItems;
@@ -12,21 +13,23 @@ class Order {
   String? shipmentAddress;
   String? phoneNumber;
 
-  Order(
-      {this.order_id,
-      this.user_id,
-      this.selectedItems,
-      this.deliverySystem,
-      this.paymentSystem,
-      this.note,
-      this.totalAmount,
-      this.image,
-      this.status,
-      this.dateTime,
-      this.shipmentAddress,
-      this.phoneNumber});
+  Order({
+    this.order_id,
+    this.user_id,
+    this.selectedItems,
+    this.deliverySystem,
+    this.paymentSystem,
+    this.note,
+    this.totalAmount,
+    this.image,
+    this.status,
+    this.dateTime,
+    this.shipmentAddress,
+    this.phoneNumber,
+  });
 
-  Map<String, dynamic> toJson(String imageSelectedBase64) => {
+  Map<String, dynamic> toJson(String imageSelectedBase64)=>
+      {
         "order_id": order_id.toString(),
         "user_id": user_id.toString(),
         "selectedItems": selectedItems,
@@ -36,8 +39,8 @@ class Order {
         "totalAmount": totalAmount!.toStringAsFixed(2),
         "image": image,
         "status": status,
-        "dateTime": dateTime,
         "shipmentAddress": shipmentAddress,
-        "phoneNumber": phoneNumber
+        "phoneNumber": phoneNumber,
+        "imageFile": imageSelectedBase64,
       };
 }

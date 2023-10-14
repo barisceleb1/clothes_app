@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:clothes_app/api_connection/api_connection.dart';
+import 'package:clothes_app/users/fragments/dashboard_of_fragments.dart';
 import 'package:clothes_app/users/model/order.dart';
 import 'package:clothes_app/users/userPreferences/current_user.dart';
 import 'package:clothes_app/utils/dimensions.dart';
@@ -23,7 +24,7 @@ class OrderConfirmationScreen extends StatelessWidget {
  final String? shipmentAddress;
  final String? note;
 
-  OrderConfirmationScreen({this.selectedCartIDs, this.selectedCartListItemsInfo, this.totalAmount, this.deliverySystem, this.paymentSystem, this.phoneNumber, this.shipmentAddress, this.note});
+ OrderConfirmationScreen({this.selectedCartIDs, this.selectedCartListItemsInfo, this.totalAmount, this.deliverySystem, this.paymentSystem, this.phoneNumber, this.shipmentAddress, this.note});
 
  RxList<int> _imageSelectedByte = <int>[].obs;
  Uint8List get imageSelectedByte => Uint8List.fromList(_imageSelectedByte);
@@ -49,31 +50,32 @@ class OrderConfirmationScreen extends StatelessWidget {
  chooseImageFromGallery() async {
   final pickedImageXFile = await _picker.pickImage(source: ImageSource.gallery);
   if(pickedImageXFile != null)
-   {
-    final bytesOfImage = await pickedImageXFile.readAsBytes();
-    setSelectedImage(bytesOfImage);
-    setSelectedImageName(path.basename(pickedImageXFile.path));
-   }
+  {
+   final bytesOfImage = await pickedImageXFile.readAsBytes();
+   setSelectedImage(bytesOfImage);
+   setSelectedImageName(path.basename(pickedImageXFile.path));
+  }
 
  }
  saveNewOrderInfo() async
  {
   String selectedItemString = selectedCartListItemsInfo!.map((eachSelectedItem) => jsonEncode(eachSelectedItem)).toList().join("||");
   Order order = Order(
-  order_id: 1,
-  user_id: currentUser.user.user_id,
-  deliverySystem: deliverySystem,
+   order_id: 1,
+   user_id: currentUser.user.user_id,
+   selectedItems: selectedItemString,
+   deliverySystem: deliverySystem,
    paymentSystem: paymentSystem,
    note: note,
    totalAmount: totalAmount,
-   image: DateTime.now().millisecondsSinceEpoch.toString()+imageSelectedName +"-",
+   image: DateTime.now().millisecondsSinceEpoch.toString()+"-"+imageSelectedName,
    status: "new",
    dateTime: DateTime.now(),
    shipmentAddress: shipmentAddress,
    phoneNumber: phoneNumber,
 
 
- );
+  );
   try
   {
    var res = await http.post(
@@ -81,20 +83,23 @@ class OrderConfirmationScreen extends StatelessWidget {
     body: order.toJson(base64Encode(imageSelectedByte)),
    );
    if(res.statusCode == 200)
-    {
-     var responseBodyOfAddNewOrder = json.decode(res.body);
-     
-     if(responseBodyOfAddNewOrder["success"] == true)
-      {
-       Fluttertoast.showToast(msg: "Your new order has been placed Successfully.");
+   {
+    var responseBodyOfAddNewOrder = json.decode(res.body);
 
-      //------delete selected items from user cart-------
-      }
-     else
-      {
-       Fluttertoast.showToast(msg: "Error:: \n your new order do NOT placed");
-      }
+    if(responseBodyOfAddNewOrder["success"] == true)
+    {
+     Fluttertoast.showToast(msg: "Your new orderhas been placed Successfully");
+     /*selectedCartIDs!.forEach((eachSelectedItemCartID)
+       {
+        deleteSelectedItemsFromUserCartList(eachSelectedItemCartID);
+       });*/
+     //------delete selected items from user cart-------
     }
+    else
+    {
+     Fluttertoast.showToast(msg: "Error:: \n your new order do NOT placed");
+    }
+   }
   }
   catch(errorMsg)
   {
@@ -102,119 +107,154 @@ class OrderConfirmationScreen extends StatelessWidget {
   }
 
  }
+ deleteSelectedItemsFromUserCartList(int cartID) async
+ {
+  try
+  {
+   var res = await http.post(
+       Uri.parse(API.deleteSelectedItemsFromCartList),
+       body:
+       {
+        "cart_id": cartID.toString(),
+       }
+   );
+
+   if(res.statusCode == 200)
+   {
+    var responseBodyFromDeleteCart = jsonDecode(res.body);
+
+    if(responseBodyFromDeleteCart["success"] == true)
+    {
+     Fluttertoast.showToast(msg: "your new order has been placed Successfully.");
+
+     Get.to(DashboardOfFragments());
+    }
+   }
+   else
+   {
+    Fluttertoast.showToast(msg: "Error, Status Code is not 200");
+   }
+  }
+  catch(errorMessage)
+  {
+   print("Error: " + errorMessage.toString());
+
+   Fluttertoast.showToast(msg: "Error: " + errorMessage.toString());
+  }
+ }
 
 
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-     backgroundColor: Colors.black,
-     body: Center(
-      child: Column(
-       mainAxisAlignment: MainAxisAlignment.center,
-       children: [
-        Image.asset("assets/transaction.png",width: Dimensions.height160,),
-        SizedBox(height: Dimensions.height4,),
-        //----title----
-        Padding(padding: EdgeInsets.all(Dimensions.height8),
-        child: Text(
-          "Please attach the transaction \n proof Screenshot /Image.",
-         textAlign: TextAlign.center,
-         style: TextStyle(
-          color: Colors.white70,
-          fontWeight: FontWeight.bold,
-          fontSize: Dimensions.height16,
+ @override
+ Widget build(BuildContext context) {
+  return Scaffold(
+   backgroundColor: Colors.black,
+   body: Center(
+    child: Column(
+     mainAxisAlignment: MainAxisAlignment.center,
+     children: [
+      Image.asset("assets/transaction.png",width: Dimensions.height160,),
+      SizedBox(height: Dimensions.height4,),
+      //----title----
+      Padding(padding: EdgeInsets.all(Dimensions.height8),
+       child: Text(
+        "Please attach the transaction \n proof Screenshot /Image.",
+        textAlign: TextAlign.center,
+        style: TextStyle(
+         color: Colors.white70,
+         fontWeight: FontWeight.bold,
+         fontSize: Dimensions.height16,
 
+        ),
+       ),),
+      SizedBox(height: Dimensions.height30),
+      //-----select image btn-------
+      Material(
+       elevation: Dimensions.height8,
+       color: Colors.red,
+       borderRadius: BorderRadius.circular(Dimensions.circular30),
+       child: InkWell(
+        onTap: ()
+        {
+         if(imageSelectedByte.length > 0)
+         {
+          chooseImageFromGallery();
+         }
+         else
+         {
+          Fluttertoast.showToast(msg: "Please attach the trasaction proof / screenshot.");
+         }
+         chooseImageFromGallery();
+        },
+        borderRadius: BorderRadius.circular(Dimensions.circular30),
+        child:  Padding(
+         padding: EdgeInsets.symmetric(
+          horizontal: Dimensions.height30,
+          vertical: Dimensions.height12,
          ),
-        ),),
-        SizedBox(height: Dimensions.height30),
-        //-----select image btn-------
-        Material(
-         elevation: Dimensions.height8,
-         color: Colors.red,
-         borderRadius: BorderRadius.circular(Dimensions.circular30),
-         child: InkWell(
-          onTap: ()
-          {
-           if(imageSelectedByte.length > 0)
-            {
-             //save order Info
-            }
-           else
-            {
-             Fluttertoast.showToast(msg: "Please attach the trasaction proof / screenshot.");
-            }
-           chooseImageFromGallery();
-          },
-          borderRadius: BorderRadius.circular(Dimensions.circular30),
-          child:  Padding(
-           padding: EdgeInsets.symmetric(
-            horizontal: Dimensions.height30,
-            vertical: Dimensions.height12,
-           ),
-           child: Text(
-            "Select Image",
-            style: TextStyle(
-             color: Colors.white,
-             fontSize: Dimensions.height16,
-            ),
-           ),
+         child: Text(
+          "Select Image",
+          style: TextStyle(
+           color: Colors.white,
+           fontSize: Dimensions.height16,
           ),
          ),
         ),
-        SizedBox(height: Dimensions.height16),
+       ),
+      ),
+      SizedBox(height: Dimensions.height16),
 
-        //------display selected image by user----------
-        Obx(()=> ConstrainedBox(
-         constraints: BoxConstraints(
-          maxWidth: MediaQuery.of(context).size.width * 0.7,
-          maxHeight: MediaQuery.of(context).size.width * 0.6,
+      //------display selected image by user----------
+      Obx(()=> ConstrainedBox(
+       constraints: BoxConstraints(
+        maxWidth: MediaQuery.of(context).size.width * 0.7,
+        maxHeight: MediaQuery.of(context).size.width * 0.6,
+       ),
+       child: imageSelectedByte.length > 0
+           ? Image.memory(imageSelectedByte, fit: BoxFit.contain,)
+           : const Placeholder(color: Colors.white60,),
+      )),
+
+      const SizedBox(height: 16),
+
+      //--------confirm and proceed-------
+      Obx(()=> Material(
+       elevation: Dimensions.height8,
+       color: imageSelectedByte.length > 0 ? Colors.purpleAccent : Colors.grey,
+       borderRadius: BorderRadius.circular(Dimensions.circular30),
+       child: InkWell(
+        onTap: ()
+        {
+         if(imageSelectedByte.length > 0)
+         {
+          //-----save order info----
+          saveNewOrderInfo();
+         }
+         else
+         {
+          Fluttertoast.showToast(msg: "Please attach the transaction proof / screenshot.");
+         }
+        },
+        borderRadius: BorderRadius.circular(Dimensions.circular30),
+        child: Padding(
+         padding: EdgeInsets.symmetric(
+          horizontal: Dimensions.height30,
+          vertical: Dimensions.height12,
          ),
-         child: imageSelectedByte.length > 0
-             ? Image.memory(imageSelectedByte, fit: BoxFit.contain,)
-             : const Placeholder(color: Colors.white60,),
-        )),
-
-        const SizedBox(height: 16),
-
-        //--------confirm and proceed-------
-        Obx(()=> Material(
-         elevation: Dimensions.height8,
-         color: imageSelectedByte.length > 0 ? Colors.purpleAccent : Colors.grey,
-         borderRadius: BorderRadius.circular(Dimensions.circular30),
-         child: InkWell(
-          onTap: ()
-          {
-           if(imageSelectedByte.length > 0)
-           {
-            //-----save order info----
-            //saveNewOrderInfo();
-           }
-           else
-           {
-            Fluttertoast.showToast(msg: "Please attach the transaction proof / screenshot.");
-           }
-          },
-          borderRadius: BorderRadius.circular(Dimensions.circular30),
-          child: Padding(
-           padding: EdgeInsets.symmetric(
-            horizontal: Dimensions.height30,
-            vertical: Dimensions.height12,
-           ),
-           child: Text(
-            "Confirmed & Proceed",
-            style: TextStyle(
-             color: Colors.white70,
-             fontSize: Dimensions.height16,
-            ),
-           ),
+         child: Text(
+          "Confirmed & Proceed",
+          style: TextStyle(
+           color: Colors.white70,
+           fontSize: Dimensions.height16,
           ),
          ),
-        )),
+        ),
+       ),
+      )),
 
-       ],
-      ),
-     ),
-    );
-  }
+     ],
+    ),
+   ),
+  );
+ }
 }
