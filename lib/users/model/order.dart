@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 class Order
 {
   int? order_id;
@@ -27,6 +29,22 @@ class Order
     this.shipmentAddress,
     this.phoneNumber,
   });
+
+  factory Order.fromJson(Map<String,dynamic> json)=> Order(
+    order_id: int.parse(json["order_id"]),
+    user_id: int.parse(json["user_id"]),
+    selectedItems: json["selectedItems"],
+    deliverySystem: json["deliverySystem"],
+    paymentSystem: json["paymentSystem"],
+    note: json["note"],
+    totalAmount: json["totalAmount"],
+    image: json["image"],
+    status: json["status"],
+    dateTime: json["dateTime"],
+    shipmentAddress: json["shipmentAddress"],
+    phoneNumber: json["phoneNumber"],
+
+  );
 
   Map<String, dynamic> toJson(String imageSelectedBase64)=>
       {

@@ -1,16 +1,185 @@
 
+import 'dart:convert';
+
+import 'package:clothes_app/api_connection/api_connection.dart';
+import 'package:clothes_app/users/model/order.dart';
+import 'package:clothes_app/users/userPreferences/current_user.dart';
+import 'package:clothes_app/utils/dimensions.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart'as http;
 
 class OrderFragmentScreen extends StatelessWidget {
 
+  final currentOnlineUser = Get.put(CurrentUser());
+
+  Future<List<Order>> getCurrentUserOrdersList() async
+  {
+    List<Order> ordersListOfCurrentUser = [];
+
+    try
+    {
+      var res = await http.post(Uri.parse(API.readOrders),
+          body:
+          {
+            "user_id": currentOnlineUser.user.user_id.toString(),
+
+          }
+      );
+      if(res.statusCode == 200)
+      {
+        var responseBodyOfCurrentUserOrdersList = jsonDecode(res.body);
+
+        if(responseBodyOfCurrentUserOrdersList['success'] == true )
+        {
+          (responseBodyOfCurrentUserOrdersList['currentUserOrdersData'] as List).forEach((eachCurrentUserOrderData)
+          {
+            ordersListOfCurrentUser.add(Order.fromJson(eachCurrentUserOrderData));
+
+          });
+        }
+      }
+      else
+      {
+        Fluttertoast.showToast(msg: "Status Code is not 200");
+      }
+    }
+    catch(errorMsg)
+    {
+      Fluttertoast.showToast(msg: "Error:"+errorMsg.toString());
+    }
+    return ordersListOfCurrentUser;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text("Order Fragmant Screen"),
+      backgroundColor: Colors.black,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
 
-      ),
+          //---displaying the user orderList---
+          displayOrdersList(context),
+        ],
+
+      )
     );
   }
+
+  Widget displayOrdersList(context) {
+
+    return FutureBuilder(
+        future: getCurrentUserOrdersList(),
+        builder:(context, AsyncSnapshot <List<Order>> dataSnapshot)
+    {
+      if(dataSnapshot.connectionState == ConnectionState.waiting)
+        {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: const[
+              Center(
+                child:  Text(
+                  "Connection Waiting...",
+                    style: TextStyle(
+                    color: Colors.grey),
+              ),
+              ),
+              Center(
+                child: CircularProgressIndicator(),
+              ),
+
+            ],
+          );
+        }
+      if(dataSnapshot.data == null)
+      {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: const[
+            Center(
+              child:  Text(
+                  "No orders found yet...",
+                style: TextStyle(
+                  color: Colors.grey),
+              ),
+              ),
+            Center(
+              child: CircularProgressIndicator(),
+            ),
+          ],
+        );
+      }
+      if(dataSnapshot.data!.length > 0)
+        {
+          List<Order> orderList= dataSnapshot.data!;
+          return ListView.separated(
+              padding: EdgeInsets.all(Dimensions.height16),
+              separatorBuilder: (context,index){
+                return const Divider(
+                  height: 1,
+                  thickness: 1,
+                );
+              },
+              itemCount: orderList.length,
+            itemBuilder: (context, index)
+              {
+                Order eachOrderData = orderList[index];
+                return Card(
+                  child: Padding(
+                    padding: EdgeInsets.all(Dimensions.height18),
+                    child: ListTile(
+                      onTap: ()
+                      {
+
+                      },
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                       children: [
+                         Text("Order ID # " + eachOrderData.order_id.toString(),
+                         style: TextStyle(
+                           fontSize: Dimensions.height16,
+                           color: Colors.grey,
+                           fontWeight: FontWeight.bold
+                         ),)
+                       ],
+                      ),
+                    ),
+                  ),
+
+
+
+                );
+
+              },
+
+          );
+        }
+      else
+        {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: const [
+              Center(
+                child: Text(
+                  "Nothing to show ...",
+                  style: TextStyle(
+                    color: Colors.grey),
+                ),
+              ),
+              Center(
+                child: CircularProgressIndicator(),
+              ),
+            ],
+
+          );
+        }
+
+    }
+
+    );
+  }
+
+  
 }
