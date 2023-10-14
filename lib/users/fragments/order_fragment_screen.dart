@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:clothes_app/api_connection/api_connection.dart';
@@ -8,46 +7,35 @@ import 'package:clothes_app/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart'as http;
+import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class OrderFragmentScreen extends StatelessWidget {
-
   final currentOnlineUser = Get.put(CurrentUser());
 
-  Future<List<Order>> getCurrentUserOrdersList() async
-  {
+  Future<List<Order>> getCurrentUserOrdersList() async {
     List<Order> ordersListOfCurrentUser = [];
 
-    try
-    {
-      var res = await http.post(Uri.parse(API.readOrders),
-          body:
-          {
-            "user_id": currentOnlineUser.user.user_id.toString(),
-
-          }
-      );
-      if(res.statusCode == 200)
-      {
+    debugPrint("Bu Order =" + Order().toString());
+    try {
+      var res = await http.post(Uri.parse(API.readOrders), body: {
+        "currentOnlineUserID": currentOnlineUser.user.user_id.toString(),
+      });
+      if (res.statusCode == 200) {
         var responseBodyOfCurrentUserOrdersList = jsonDecode(res.body);
 
-        if(responseBodyOfCurrentUserOrdersList['success'] == true )
-        {
-          (responseBodyOfCurrentUserOrdersList['currentUserOrdersData'] as List).forEach((eachCurrentUserOrderData)
-          {
-            ordersListOfCurrentUser.add(Order.fromJson(eachCurrentUserOrderData));
-
+        if (responseBodyOfCurrentUserOrdersList['success'] == true) {
+          (responseBodyOfCurrentUserOrdersList['currentUserOrdersData'] as List)
+              .forEach((eachCurrentUserOrderData) {
+            ordersListOfCurrentUser
+                .add(Order.fromJson(eachCurrentUserOrderData));
           });
         }
-      }
-      else
-      {
+      } else {
         Fluttertoast.showToast(msg: "Status Code is not 200");
       }
-    }
-    catch(errorMsg)
-    {
-      Fluttertoast.showToast(msg: "Error:"+errorMsg.toString());
+    } catch (errorMsg) {
+      Fluttertoast.showToast(msg: "Error:" + errorMsg.toString());
     }
     return ordersListOfCurrentUser;
   }
@@ -55,131 +43,151 @@ class OrderFragmentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        backgroundColor: Colors.black,
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(padding: EdgeInsets.fromLTRB(Dimensions.height16, Dimensions.height24, Dimensions.height8, 0),
+            child: Row(
+              children: [
+                Image.asset(
+                  "asset/"
 
-          //---displaying the user orderList---
-          displayOrdersList(context),
-        ],
-
-      )
-    );
+                ),
+              ],
+            ),)
+            //---displaying the user orderList---
+            Expanded(child: displayOrdersList(context)),
+          ],
+        ));
   }
 
   Widget displayOrdersList(context) {
-
     return FutureBuilder(
         future: getCurrentUserOrdersList(),
-        builder:(context, AsyncSnapshot <List<Order>> dataSnapshot)
-    {
-      if(dataSnapshot.connectionState == ConnectionState.waiting)
-        {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: const[
-              Center(
-                child:  Text(
-                  "Connection Waiting...",
-                    style: TextStyle(
-                    color: Colors.grey),
-              ),
-              ),
-              Center(
-                child: CircularProgressIndicator(),
-              ),
-
-            ],
-          );
-        }
-      if(dataSnapshot.data == null)
-      {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: const[
-            Center(
-              child:  Text(
-                  "No orders found yet...",
-                style: TextStyle(
-                  color: Colors.grey),
-              ),
-              ),
-            Center(
-              child: CircularProgressIndicator(),
-            ),
-          ],
-        );
-      }
-      if(dataSnapshot.data!.length > 0)
-        {
-          List<Order> orderList= dataSnapshot.data!;
-          return ListView.separated(
+        builder: (context, AsyncSnapshot<List<Order>> dataSnapshot) {
+          if (dataSnapshot.connectionState == ConnectionState.waiting) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: const [
+                Center(
+                  child: Text(
+                    "Connection Waiting...",
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ),
+                Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ],
+            );
+          }
+          if (dataSnapshot.data == null) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: const [
+                Center(
+                  child: Text(
+                    "No orders found yet...",
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ),
+                Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ],
+            );
+          }
+          if (dataSnapshot.data!.length > 0) {
+            List<Order> orderList = dataSnapshot.data!;
+            return ListView.separated(
               padding: EdgeInsets.all(Dimensions.height16),
-              separatorBuilder: (context,index){
+              separatorBuilder: (context, index) {
                 return const Divider(
                   height: 1,
                   thickness: 1,
                 );
               },
               itemCount: orderList.length,
-            itemBuilder: (context, index)
-              {
+              itemBuilder: (context, index) {
                 Order eachOrderData = orderList[index];
                 return Card(
+                  color: Colors.white24,
                   child: Padding(
                     padding: EdgeInsets.all(Dimensions.height18),
                     child: ListTile(
-                      onTap: ()
-                      {
-
-                      },
+                      onTap: () {},
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                       children: [
-                         Text("Order ID # " + eachOrderData.order_id.toString(),
-                         style: TextStyle(
-                           fontSize: Dimensions.height16,
-                           color: Colors.grey,
-                           fontWeight: FontWeight.bold
-                         ),)
-                       ],
+                        children: [
+                          Text(
+                            "Order ID # " + eachOrderData.order_id.toString(),
+                            style: TextStyle(
+                                fontSize: Dimensions.height16,
+                                color: Colors.grey,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "Amount: \₺" + eachOrderData.totalAmount.toString(),
+                            style: TextStyle(
+                                fontSize: Dimensions.height16,
+                                color: Colors.grey,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          //------date-----
+                          //------time-----
+
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                DateFormat("dd MMM, yyy")
+                                    .format(eachOrderData.dateTime!),
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                              SizedBox(height: Dimensions.height4,),
+                              Text(
+                                DateFormat("hh:mm a")
+                                    .format(eachOrderData.dateTime!),
+                                style: TextStyle(color: Colors.grey),
+                              )
+                            ],
+                          ),
+                          SizedBox(width: Dimensions.width6,),
+                          Icon(
+                            Icons.navigate_next,
+                            color: Colors.red,
+                          )
+
+                        ],
                       ),
                     ),
                   ),
-
-
-
                 );
-
               },
-
-          );
-        }
-      else
-        {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: const [
-              Center(
-                child: Text(
-                  "Nothing to show ...",
-                  style: TextStyle(
-                    color: Colors.grey),
+            );
+          } else {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: const [
+                Center(
+                  child: Text(
+                    "Nothing to show ...",
+                    style: TextStyle(color: Colors.grey),
+                  ),
                 ),
-              ),
-              Center(
-                child: CircularProgressIndicator(),
-              ),
-            ],
-
-          );
-        }
-
-    }
-
-    );
+                Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ],
+            );
+          }
+        });
   }
-
-  
 }
