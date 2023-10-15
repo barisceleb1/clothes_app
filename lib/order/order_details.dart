@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:clothes_app/api_connection/api_connection.dart';
 import 'package:clothes_app/users/model/order.dart';
 import 'package:clothes_app/utils/dimensions.dart';
 import 'package:flutter/cupertino.dart';
@@ -38,6 +39,56 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
             displayClickOrderItems(),
             SizedBox(height: Dimensions.height16),
 
+            //-----phoneNumber----
+            showTitleText("Phone Number:"),
+            SizedBox(height: Dimensions.height8),
+            showContentText(widget.clickedOrderInfo!.phoneNumber!),
+            SizedBox(height: Dimensions.height26),
+            //-----Shipment Address----
+            showTitleText("Shipment Address:"),
+            SizedBox(height: Dimensions.height8),
+            showContentText(widget.clickedOrderInfo!.shipmentAddress!),
+            SizedBox(height: Dimensions.height26),
+            //------delivery------
+            showTitleText("Delivery System:"),
+            SizedBox(height: Dimensions.height8),
+            showContentText(widget.clickedOrderInfo!.deliverySystem!),
+
+            SizedBox(height: Dimensions.height26),
+
+            //-----payment----
+            showTitleText("Payment System:"),
+            SizedBox(height: Dimensions.height8),
+            showContentText(widget.clickedOrderInfo!.paymentSystem!),
+            SizedBox(height: Dimensions.height26),
+
+            //-----Note-----
+            showTitleText("Note to Seller"),
+            SizedBox(height: Dimensions.height8),
+            showContentText(widget.clickedOrderInfo!.note!),
+            SizedBox(height: Dimensions.height26),
+
+            //----Total Amount------
+            showTitleText("Total Amount:"),
+            SizedBox(height: Dimensions.height8),
+            showContentText(widget.clickedOrderInfo!.totalAmount.toString()),
+            SizedBox(height: Dimensions.height26),
+
+            //----Payment Proof------
+            showTitleText("Proof of Payment/Transaction:"),
+            SizedBox(height: Dimensions.height8),
+            FadeInImage(
+              width: MediaQuery.of(context).size.width * 0.8,
+              fit: BoxFit.fitWidth,
+              placeholder: const AssetImage("assets/place_holder.png"),
+              image: NetworkImage(API.hostImages + widget.clickedOrderInfo!.image!),
+              imageErrorBuilder: (context, error, stackTraceError) {
+                return const Center(
+                  child: Icon(Icons.broken_image_outlined),
+                );
+              },
+            ),
+
 
           ],
         ),),
@@ -46,7 +97,31 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
     );
   }
-  displayClickOrderItems() {
+  Widget showTitleText(String titleText)
+  {
+    return Text(
+      titleText,
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: Dimensions.height20,
+        color: Colors.grey,
+      ),
+    );
+
+  }
+  Widget showContentText(String contentText)
+  {
+    return Text(
+      contentText,
+      style: TextStyle(
+        fontSize: Dimensions.height14,
+        color: Colors.white38,
+      ),
+    );
+
+  }
+
+  Widget displayClickOrderItems() {
     List<String> clickedOrderItemsInfo = widget.clickedOrderInfo!.selectedItems!.split("||");
     return Column(
         children: List.generate(clickedOrderItemsInfo.length, (index) {
