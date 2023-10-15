@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:clothes_app/admin/admin_get_all_orders.dart';
 import 'package:clothes_app/admin/admin_login.dart';
 import 'package:clothes_app/api_connection/api_connection.dart';
 import 'package:clothes_app/utils/dimensions.dart';
@@ -95,8 +96,18 @@ class _AdminUplodItemsScreenState extends State<AdminUplodItemsScreen> {
                   colors: [Colors.black, Colors.deepPurpleAccent])),
         ),
         automaticallyImplyLeading: false,
-        title: Text("Welcome Admin"),
-        centerTitle: true,
+        title: GestureDetector(
+          onTap: ()
+          {
+          Get.to(AdminGetAllOrdersScreen());
+          },
+          child: Text("New Orders",style: TextStyle(
+            color: Colors.green,
+            fontSize: Dimensions.height16,
+            fontWeight: FontWeight.bold
+          ),),
+        ),
+        centerTitle: false,
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -161,7 +172,6 @@ class _AdminUplodItemsScreenState extends State<AdminUplodItemsScreen> {
     imageLink = (jsonRes["data"]["link"]).toString();
     String deleteHash = (jsonRes["data"]["deletehash"]).toString();
     saveItemInfoToDatabese();
-
 
     //  print("imageLink\n"+imageLink);
     //  print("deleteHash:\n"+deleteHash);
