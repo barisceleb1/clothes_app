@@ -47,15 +47,65 @@ class OrderFragmentScreen extends StatelessWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // ----- Order image   // history image ----
+            // ------ MyOrder title  // history title ----
+
             Padding(padding: EdgeInsets.fromLTRB(Dimensions.height16, Dimensions.height24, Dimensions.height8, 0),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Image.asset(
-                  "asset/"
+            Column(
+            children: [
+            Image.asset(
+              "assets/orders_icon.png",
+              width: Dimensions.width140,
 
+            ),
+      Text("My order",style: TextStyle(
+        color: Colors.red,
+        fontSize: Dimensions.height24,                           // Dimensions.height24,
+        fontWeight: FontWeight.bold,
+      ),)
+      ],
+    ),
+                GestureDetector(
+                  onTap: ()
+                  {
+                    //send user to orders history screen
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.all(Dimensions.height8),
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          "assets/history_icon.png",
+                          width: Dimensions.width45,
+
+                        ),
+                        Text("History",style: TextStyle(
+                          color: Colors.red,
+                          fontSize: Dimensions.height12,                           // Dimensions.height24,
+                          fontWeight: FontWeight.bold,
+                        ),)
+                      ],
+                    ),
+                  ),
                 ),
+
+
+
               ],
-            ),)
+            ),),
+            Padding(
+              padding:  EdgeInsets.symmetric(horizontal: Dimensions.height30),
+              child: Text("Here are your successfully palced orders",
+              style: TextStyle(
+                fontSize: Dimensions.height16,
+                color: Colors.white,
+                fontWeight: FontWeight.w400,
+              ),),
+            ),
+            
             //---displaying the user orderList---
             Expanded(child: displayOrdersList(context)),
           ],
@@ -67,9 +117,9 @@ class OrderFragmentScreen extends StatelessWidget {
         future: getCurrentUserOrdersList(),
         builder: (context, AsyncSnapshot<List<Order>> dataSnapshot) {
           if (dataSnapshot.connectionState == ConnectionState.waiting) {
-            return Column(
+            return const Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: const [
+              children: [
                 Center(
                   child: Text(
                     "Connection Waiting...",
@@ -83,9 +133,9 @@ class OrderFragmentScreen extends StatelessWidget {
             );
           }
           if (dataSnapshot.data == null) {
-            return Column(
+            return const Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: const [
+              children: [
                 Center(
                   child: Text(
                     "No orders found yet...",
@@ -116,7 +166,10 @@ class OrderFragmentScreen extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.all(Dimensions.height18),
                     child: ListTile(
-                      onTap: () {},
+                      onTap: ()
+                      {
+                        Get.to();
+                      },
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -190,4 +243,5 @@ class OrderFragmentScreen extends StatelessWidget {
           }
         });
   }
+
 }
