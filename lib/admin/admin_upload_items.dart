@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:clothes_app/admin/admin_get_all_orders.dart';
 import 'package:clothes_app/admin/admin_login.dart';
 import 'package:clothes_app/api_connection/api_connection.dart';
+import 'package:clothes_app/users/authentication/login_screen.dart';
 import 'package:clothes_app/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -108,6 +109,23 @@ class _AdminUplodItemsScreenState extends State<AdminUplodItemsScreen> {
           ),),
         ),
         centerTitle: false,
+        actions: [
+          IconButton(onPressed: ()
+              {
+                Get.defaultDialog(
+                  title: "Do you want to log out ?",
+                  middleText: "",
+                  onCancel: (){},
+                  onConfirm: (){Get.off(LoginScreen());}
+
+                );
+
+              }
+              , icon: const Icon(
+                Icons.logout,
+                color: Colors.red,
+              ))
+        ],
       ),
       body: Container(
         decoration: const BoxDecoration(

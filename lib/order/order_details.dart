@@ -5,6 +5,7 @@ import 'package:clothes_app/users/model/order.dart';
 import 'package:clothes_app/utils/dimensions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class OrderDetailsScreen extends StatefulWidget {
@@ -19,6 +20,79 @@ class OrderDetailsScreen extends StatefulWidget {
 }
 
 class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
+
+  RxString _status = "new".obs;
+  String get status => _status.value;
+
+  updateParcelStatusForUI(String parcelReceived)
+  {
+    _status.value = parcelReceived;
+  }
+  showDialogForParcelConfirmation() async
+  {
+    if(widget.clickedOrderInfo!.status == "new")
+      {
+        var response = await Get.dialog(
+         AlertDialog(
+            backgroundColor: Colors.black,
+            title: Text(
+              "Confirmation",
+              style: TextStyle(
+                color: Colors.grey,
+              ),
+            ),
+            content: Text(
+              "Have you received your parcel?",
+              style: TextStyle(
+                color: Colors.grey
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: ()
+                {
+                  Get.back();
+
+                },
+                child: Text(
+                  "No",
+                  style: TextStyle(
+                      color: Colors.red
+                  ),
+
+                ),
+              ),
+              TextButton(
+                onPressed: ()
+                {
+                  Get.back(result: "yesConfirmed");
+
+                },
+                child: Text(
+                  "Yes",
+                  style: TextStyle(
+                      color: Colors.green
+                  ),
+
+                ),
+              ),
+            ],
+          )
+
+        );
+
+    if(response == "yesConfirmed")
+      {
+        updateStatusValueInDatabase();
+      }
+     }
+  }
+  updateStatusValueInDatabase()
+  {
+
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,6 +104,44 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
             "dd MMM, yyyy - hh:mm a").format(widget.clickedOrderInfo!.dateTime!),
           style: TextStyle(fontSize: Dimensions.height14),
         ),
+        actions: [
+          Padding(padding: EdgeInsets.fromLTRB(Dimensions.height8, Dimensions.height8, Dimensions.height16, Dimensions.height8),
+            child: Material(
+              color: Colors.white30,
+              borderRadius: BorderRadius.circular(Dimensions.circular10),
+              child: InkWell(
+                onTap: ()
+                {
+                  showDialogForParcelConfirmation();
+
+                },
+                borderRadius: BorderRadius.circular(Dimensions.height30),
+                child: Padding(padding: EdgeInsets.symmetric(horizontal: Dimensions.height16,vertical: Dimensions.height4),
+                child: Row(
+                  children: [
+                    Text("Received",
+                    style: TextStyle(
+                      fontSize: Dimensions.height14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                    ),
+
+                    SizedBox(width: Dimensions.height8,),
+                    Obx(() => status == "new"
+                        ? const Icon(Icons.help_outline, color: Colors.red,)
+                        : const Icon(Icons.check_circle_outline, color: Colors.green,)
+
+                    )
+                  ],
+                ),
+
+                ),
+              ),
+
+            ),
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(padding: EdgeInsets.all(Dimensions.height16),
