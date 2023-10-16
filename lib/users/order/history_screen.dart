@@ -206,7 +206,18 @@ class HistoryScreen extends StatelessWidget {
                 );
               },
             );
-          } else {
+          }
+          if(dataSnapshot.data?.length == 0)
+          {
+            return Column(
+              children: [
+                Center(child: Padding(
+                  padding:  EdgeInsets.all(Dimensions.height10),
+                  child: Text("Order Empty",style: TextStyle(color: Colors.white),),
+                )),
+              ],
+            );
+          }else {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: const [

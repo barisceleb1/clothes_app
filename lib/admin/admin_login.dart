@@ -110,6 +110,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                               children: [
                                 //email
                                 TextFormField(
+                                  keyboardType: TextInputType.emailAddress,
                                   controller: emailController,
                                   validator: (val) =>
                                   val == '' ? "Please write email" : null,

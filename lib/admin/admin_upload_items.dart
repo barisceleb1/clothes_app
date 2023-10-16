@@ -589,7 +589,7 @@ print("Error:: "+ errorMsg.toString());
                                   Icons.description,
                                   color: Colors.black,
                                 ),
-                                hintText: "item rating...",
+                                hintText: "description...",
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(
                                         Dimensions.circular30),
