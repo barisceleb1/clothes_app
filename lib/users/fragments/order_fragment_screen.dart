@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:clothes_app/api_connection/api_connection.dart';
-import 'package:clothes_app/order/order_details.dart';
+import 'package:clothes_app/users/order/order_details.dart';
 import 'package:clothes_app/users/model/order.dart';
 import 'package:clothes_app/users/userPreferences/current_user.dart';
 import 'package:clothes_app/utils/dimensions.dart';

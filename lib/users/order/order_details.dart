@@ -5,8 +5,10 @@ import 'package:clothes_app/users/model/order.dart';
 import 'package:clothes_app/utils/dimensions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 
 class OrderDetailsScreen extends StatefulWidget {
 
@@ -87,9 +89,42 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       }
      }
   }
-  updateStatusValueInDatabase()
+  updateStatusValueInDatabase() async
   {
+    try
+        {
+          var response = await http.post(
+            Uri.parse(API.updateStatus),
+            body:
+              {
+                "order_id": widget.clickedOrderInfo!.order_id.toString(),
+              }
+          );
+          if(response.statusCode == 200)
+          {
+            var responseBodyOfUpdateStatus = jsonDecode(response.body);
+            if(responseBodyOfUpdateStatus ["success"] == true)
+              {
+                Fluttertoast.showToast(msg: "Başarılı");
+                updateParcelStatusForUI("arrived");
+              }
 
+          }
+          else
+          {
+            Fluttertoast.showToast(msg: "Error, Status Code is not 200");
+          }
+        }
+        catch(e)
+    {
+      print(e.toString());
+    }
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    updateParcelStatusForUI(widget.clickedOrderInfo!.status.toString());
   }
 
 
@@ -112,7 +147,11 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
               child: InkWell(
                 onTap: ()
                 {
-                  showDialogForParcelConfirmation();
+                  if(status == "new")
+                    {
+                      showDialogForParcelConfirmation();
+                    }
+
 
                 },
                 borderRadius: BorderRadius.circular(Dimensions.height30),
