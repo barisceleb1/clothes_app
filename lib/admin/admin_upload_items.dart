@@ -114,6 +114,10 @@ class _AdminUplodItemsScreenState extends State<AdminUplodItemsScreen> {
               {
                 Get.defaultDialog(
                   title: "Do you want to log out ?",
+                  backgroundColor: Colors.grey.shade600,
+                  buttonColor: Colors.red,
+                  cancelTextColor: Colors.white,
+                  confirmTextColor: Colors.white,
                   middleText: "",
                   onCancel: (){},
                   onConfirm: (){Get.off(LoginScreen());}

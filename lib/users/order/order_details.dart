@@ -34,8 +34,24 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   {
     if(widget.clickedOrderInfo!.status == "new")
       {
-        var response = await Get.dialog(
-         AlertDialog(
+        var response = await Get.defaultDialog(
+          onConfirm: (){Get.back(result: "yesConfirmed");},
+          onCancel: (){},
+          title:"\n Have you received your parcel?",
+            backgroundColor: Colors.grey.shade600,
+            buttonColor: Colors.red,
+            cancelTextColor: Colors.white,
+            confirmTextColor: Colors.white,
+          middleText: "",
+
+          barrierDismissible: false
+
+
+
+        );
+
+
+         /*AlertDialog(
             backgroundColor: Colors.black,
             title: Text(
               "Confirmation",
@@ -79,9 +95,9 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                 ),
               ),
             ],
-          )
+          )*/
 
-        );
+
 
     if(response == "yesConfirmed")
       {
