@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:clothes_app/api_connection/api_connection.dart';
-import 'package:clothes_app/users/order/history_screen.dart';
 import 'package:clothes_app/users/order/order_details.dart';
 import 'package:clothes_app/users/model/order.dart';
 import 'package:clothes_app/users/userPreferences/current_user.dart';
@@ -12,7 +11,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
-class OrderFragmentScreen extends StatelessWidget {
+class HistoryScreen extends StatelessWidget {
   final currentOnlineUser = Get.put(CurrentUser());
 
   Future<List<Order>> getCurrentUserOrdersList() async {
@@ -20,7 +19,7 @@ class OrderFragmentScreen extends StatelessWidget {
 
     debugPrint("Bu Order =" + Order().toString());
     try {
-      var res = await http.post(Uri.parse(API.readOrders), body: {
+      var res = await http.post(Uri.parse(API.readHistory), body: {
         "currentOnlineUserID": currentOnlineUser.user.user_id.toString(),
       });
       if (res.statusCode == 200) {
@@ -52,63 +51,38 @@ class OrderFragmentScreen extends StatelessWidget {
             // ----- Order image   // history image ----
             // ------ MyOrder title  // history title ----
 
-            Padding(padding: EdgeInsets.fromLTRB(Dimensions.height16, Dimensions.height24, Dimensions.height8, 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-            Column(
-            children: [
-            Image.asset(
-              "assets/orders_icon.png",
-              width: Dimensions.width140,
+            Center(
+              child: Padding(padding: EdgeInsets.fromLTRB(Dimensions.height16, Dimensions.height24, Dimensions.height8, 0),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding:EdgeInsets.all(Dimensions.height8),
+                      child: Image.asset(
+                        "assets/history_icon.png",
+                        width: Dimensions.width140,
 
-            ),
-      Text("My orders",style: TextStyle(
-        color: Colors.red,
-        fontSize: Dimensions.height24,                           // Dimensions.height24,
-        fontWeight: FontWeight.bold,
-      ),)
-      ],
-    ),
-                GestureDetector(
-                  onTap: ()
-                  {
-                    //send user to orders history screen
-                    Get.to(HistoryScreen());
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.all(Dimensions.height8),
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          "assets/history_icon.png",
-                          width: Dimensions.width45,
-
-                        ),
-                        Text("History",style: TextStyle(
-                          color: Colors.red,
-                          fontSize: Dimensions.height12,                           // Dimensions.height24,
-                          fontWeight: FontWeight.bold,
-                        ),)
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-
-
-
-              ],
-            ),),
-            Padding(
-              padding:  EdgeInsets.symmetric(horizontal: Dimensions.height30),
-              child: Text("Here are your successfully placed orders",
-              style: TextStyle(
-                fontSize: Dimensions.height16,
-                color: Colors.white,
-                fontWeight: FontWeight.w400,
-              ),),
+                    Text("My History",style: TextStyle(
+                      color: Colors.red,
+                      fontSize: Dimensions.height24,                           // Dimensions.height24,
+                      fontWeight: FontWeight.bold,
+                    ),)
+                  ],
+                ),),
             ),
-            
+            Center(
+              child: Padding(
+                padding:  EdgeInsets.symmetric(horizontal: Dimensions.height30),
+                child: Text("Here are your successfully received parcels",
+                  style: TextStyle(
+                    fontSize: Dimensions.height16,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w400,
+                  ),),
+              ),
+            ),
+
             //---displaying the user orderList---
             Expanded(child: displayOrdersList(context)),
           ],
@@ -172,7 +146,7 @@ class OrderFragmentScreen extends StatelessWidget {
                       onTap: ()
                       {
                         Get.to(OrderDetailsScreen(
-                          clickedOrderInfo: eachOrderData
+                            clickedOrderInfo: eachOrderData
 
 
                         ));
