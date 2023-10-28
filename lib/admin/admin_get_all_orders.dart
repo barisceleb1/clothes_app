@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:clothes_app/api_connection/api_connection.dart';
-import 'package:clothes_app/order/order_details.dart';
+import 'package:clothes_app/users/order/order_details.dart';
 import 'package:clothes_app/users/model/order.dart';
 import 'package:clothes_app/users/userPreferences/current_user.dart';
 import 'package:clothes_app/utils/dimensions.dart';
@@ -26,9 +26,9 @@ class AdminGetAllOrdersScreen extends StatelessWidget {
 
         if (responseBodyOfCurrentUserOrdersList['success'] == true) {
           (responseBodyOfCurrentUserOrdersList['allOrdersData'] as List)
-              .forEach((eachCurrentUserOrderData) {
+              .forEach((eachOrderData) {
             ordersList
-                .add(Order.fromJson(eachCurrentUserOrderData));
+                .add(Order.fromJson(eachOrderData));
           });
         }
       } else {
@@ -134,7 +134,9 @@ class AdminGetAllOrdersScreen extends StatelessWidget {
               },
               itemCount: orderList.length,
               itemBuilder: (context, index) {
+
                 Order eachOrderData = orderList[index];
+
                 return Card(
                   color: Colors.white24,
                   child: Padding(
@@ -203,7 +205,18 @@ class AdminGetAllOrdersScreen extends StatelessWidget {
                 );
               },
             );
-          } else {
+          }
+          if(dataSnapshot.data?.length == 0)
+          {
+            return Column(
+              children: [
+                Center(child: Padding(
+                  padding:  EdgeInsets.all(Dimensions.height10),
+                  child: Text("Order Empty",style: TextStyle(color: Colors.white),),
+                )),
+              ],
+            );
+          }else {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: const [

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 
 import 'package:clothes_app/api_connection/api_connection.dart';
-import 'package:clothes_app/order/order_now_screen.dart';
+import 'package:clothes_app/users/order/order_now_screen.dart';
 import 'package:clothes_app/users/controllers/cart_list_controller.dart';
 import 'package:clothes_app/users/model/cart.dart';
 import 'package:clothes_app/users/model/clothes.dart';

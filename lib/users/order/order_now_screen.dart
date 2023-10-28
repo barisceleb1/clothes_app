@@ -1,4 +1,4 @@
-import 'package:clothes_app/order/order_confirmation.dart';
+import 'package:clothes_app/users/order/order_confirmation.dart';
 import 'package:clothes_app/users/controllers/order_now_controller.dart';
 import 'package:clothes_app/utils/dimensions.dart';
 import 'package:flutter/material.dart';

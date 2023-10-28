@@ -137,6 +137,7 @@ class Dimensions {
   static double fontSize45 = screenHeight/15.18;
   static double fontSize50 = screenHeight/13.66;
 //circular
+  static double circular10 = screenHeight/68.34;
   static double circular12 = screenHeight/56.95;
   static double circular30 = screenHeight/22.78;
   static double circular60 = screenHeight/11.39;

@@ -113,6 +113,7 @@ print("Error:: "+erorrMsg.toString());
                               children: [
                                 //email
                                 TextFormField(
+                                  keyboardType: TextInputType.emailAddress,
                                   controller: emailController,
                                   validator: (val) =>
                                       val == '' ? "Please write email" : null,
@@ -157,6 +158,7 @@ print("Error:: "+erorrMsg.toString());
                                 //password
                                 Obx(
                                   () => TextFormField(
+                                    keyboardType:TextInputType.visiblePassword,
                                     controller: passwordController,
                                     obscureText: isObsecure.value,
                                     validator: (val) => val == ''

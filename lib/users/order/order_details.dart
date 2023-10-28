@@ -5,7 +5,10 @@ import 'package:clothes_app/users/model/order.dart';
 import 'package:clothes_app/utils/dimensions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 
 class OrderDetailsScreen extends StatefulWidget {
 
@@ -19,6 +22,128 @@ class OrderDetailsScreen extends StatefulWidget {
 }
 
 class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
+
+  RxString _status = "new".obs;
+  String get status => _status.value;
+
+  updateParcelStatusForUI(String parcelReceived)
+  {
+    _status.value = parcelReceived;
+  }
+  showDialogForParcelConfirmation() async
+  {
+    if(widget.clickedOrderInfo!.status == "new")
+      {
+        var response = await Get.defaultDialog(
+          onConfirm: (){Get.back(result: "yesConfirmed");},
+          onCancel: (){},
+          title:"\n Have you received your parcel?",
+            backgroundColor: Colors.grey.shade600,
+            buttonColor: Colors.red,
+            cancelTextColor: Colors.white,
+            confirmTextColor: Colors.white,
+          middleText: "",
+
+          barrierDismissible: false
+
+
+
+        );
+
+
+         /*AlertDialog(
+            backgroundColor: Colors.black,
+            title: Text(
+              "Confirmation",
+              style: TextStyle(
+                color: Colors.grey,
+              ),
+            ),
+            content: Text(
+              "Have you received your parcel?",
+              style: TextStyle(
+                color: Colors.grey
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: ()
+                {
+                  Get.back();
+
+                },
+                child: Text(
+                  "No",
+                  style: TextStyle(
+                      color: Colors.red
+                  ),
+
+                ),
+              ),
+              TextButton(
+                onPressed: ()
+                {
+                  Get.back(result: "yesConfirmed");
+
+                },
+                child: Text(
+                  "Yes",
+                  style: TextStyle(
+                      color: Colors.green
+                  ),
+
+                ),
+              ),
+            ],
+          )*/
+
+
+
+    if(response == "yesConfirmed")
+      {
+        updateStatusValueInDatabase();
+      }
+     }
+  }
+  updateStatusValueInDatabase() async
+  {
+    try
+        {
+          var response = await http.post(
+            Uri.parse(API.updateStatus),
+            body:
+              {
+                "order_id": widget.clickedOrderInfo!.order_id.toString(),
+              }
+          );
+          if(response.statusCode == 200)
+          {
+            var responseBodyOfUpdateStatus = jsonDecode(response.body);
+            if(responseBodyOfUpdateStatus ["success"] == true)
+              {
+                Fluttertoast.showToast(msg: "Başarılı");
+                updateParcelStatusForUI("arrived");
+              }
+
+          }
+          else
+          {
+            Fluttertoast.showToast(msg: "Error, Status Code is not 200");
+          }
+        }
+        catch(e)
+    {
+      print(e.toString());
+    }
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    updateParcelStatusForUI(widget.clickedOrderInfo!.status.toString());
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,6 +155,48 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
             "dd MMM, yyyy - hh:mm a").format(widget.clickedOrderInfo!.dateTime!),
           style: TextStyle(fontSize: Dimensions.height14),
         ),
+        actions: [
+          Padding(padding: EdgeInsets.fromLTRB(Dimensions.height8, Dimensions.height8, Dimensions.height16, Dimensions.height8),
+            child: Material(
+              color: Colors.white30,
+              borderRadius: BorderRadius.circular(Dimensions.circular10),
+              child: InkWell(
+                onTap: ()
+                {
+                  if(status == "new")
+                    {
+                      showDialogForParcelConfirmation();
+                    }
+
+
+                },
+                borderRadius: BorderRadius.circular(Dimensions.height30),
+                child: Padding(padding: EdgeInsets.symmetric(horizontal: Dimensions.height16,vertical: Dimensions.height4),
+                child: Row(
+                  children: [
+                    Text("Received",
+                    style: TextStyle(
+                      fontSize: Dimensions.height14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                    ),
+
+                    SizedBox(width: Dimensions.height8,),
+                    Obx(() => status == "new"
+                        ? const Icon(Icons.help_outline, color: Colors.red,)
+                        : const Icon(Icons.check_circle_outline, color: Colors.green,)
+
+                    )
+                  ],
+                ),
+
+                ),
+              ),
+
+            ),
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(padding: EdgeInsets.all(Dimensions.height16),
