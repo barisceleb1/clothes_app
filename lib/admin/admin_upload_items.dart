@@ -538,7 +538,7 @@ print("Error:: "+ errorMsg.toString());
                                   Icons.color_lens,
                                   color: Colors.black,
                                 ),
-                                hintText: "item rating...",
+                                hintText: "item color...",
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(
                                         Dimensions.circular30),
@@ -581,7 +581,7 @@ print("Error:: "+ errorMsg.toString());
                                   Icons.description,
                                   color: Colors.black,
                                 ),
-                                hintText: "item rating...",
+                                hintText: "item descripton...",
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(
                                         Dimensions.circular30),
