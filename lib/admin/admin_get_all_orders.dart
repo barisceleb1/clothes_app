@@ -17,7 +17,6 @@ class AdminGetAllOrdersScreen extends StatelessWidget {
   Future<List<Order>> getAllOrdersList() async {
     List<Order> ordersList = [];
 
-    debugPrint("Bu Order =" + Order().toString());
     try {
       var res = await http.post(Uri.parse(API.adminGetAllOrders), body: {
 
@@ -53,7 +52,7 @@ class AdminGetAllOrdersScreen extends StatelessWidget {
 
             Padding(padding: EdgeInsets.fromLTRB(Dimensions.height16, Dimensions.height24, Dimensions.height8, 0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Column(
                     children: [
@@ -62,51 +61,25 @@ class AdminGetAllOrdersScreen extends StatelessWidget {
                         width: Dimensions.width140,
 
                       ),
-                      Text("My order",style: TextStyle(
+                      Text("All New Orders",style: TextStyle(
                         color: Colors.red,
                         fontSize: Dimensions.height24,                           // Dimensions.height24,
                         fontWeight: FontWeight.bold,
-                      ),)
+                      ),),
+                      Padding(
+                        padding:  EdgeInsets.symmetric(horizontal: Dimensions.height30),
+                        child: Text("Here are your successfully palced orders",
+                          style: TextStyle(
+                            fontSize: Dimensions.height16,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w400,
+                          ),),
+                      ),
                     ],
                   ),
-                  GestureDetector(
-                    onTap: ()
-                    {
-                      //send user to orders history screen
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.all(Dimensions.height8),
-                      child: Column(
-                        children: [
-                          Image.asset(
-                            "assets/history_icon.png",
-                            width: Dimensions.width45,
-
-                          ),
-                          Text("History",style: TextStyle(
-                            color: Colors.red,
-                            fontSize: Dimensions.height12,                           // Dimensions.height24,
-                            fontWeight: FontWeight.bold,
-                          ),)
-                        ],
-                      ),
-                    ),
-                  ),
-
-
 
                 ],
               ),),
-            Padding(
-              padding:  EdgeInsets.symmetric(horizontal: Dimensions.height30),
-              child: Text("Here are your successfully palced orders",
-                style: TextStyle(
-                  fontSize: Dimensions.height16,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w400,
-                ),),
-            ),
-
             //---displaying the user orderList---
             Expanded(child: displayOrdersList(context)),
           ],
