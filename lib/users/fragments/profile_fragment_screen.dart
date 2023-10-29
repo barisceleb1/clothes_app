@@ -10,7 +10,26 @@ class ProfileFragmentScreen extends StatelessWidget {
   final CurrentUser _currentUser = Get.put(CurrentUser());
 signOutUser()async
 {
-  var resultResponse = await Get.dialog(
+  var resultResponse = await Get.defaultDialog(
+      onConfirm: (){Get.back(result: "loggedOut");},
+      onCancel: (){},
+      title:"Logout",
+      backgroundColor: Colors.grey.shade600,
+      buttonColor: Colors.red,
+      textCancel:"No",
+      textConfirm: "Yes",
+      cancelTextColor: Colors.white,
+      confirmTextColor: Colors.white,
+      middleText: "Have you received your parcel?",
+
+      barrierDismissible: false
+
+
+
+  );
+// If you want to use alert dialog, you can use the comment below.
+
+  /*Get.dialog(
     AlertDialog(
       backgroundColor: Colors.grey,
       title: Text(
@@ -18,7 +37,6 @@ signOutUser()async
         style: TextStyle(
           fontSize: Dimensions.fontSize18,
           fontWeight: FontWeight.bold,
-
         ),
       ),
       content: Text(
@@ -38,9 +56,8 @@ signOutUser()async
           "Yes",style: TextStyle(color: Colors.black),
         ),),
       ],
-
     ),
-  );
+  );*/
   if(resultResponse == "loggedOut"){
     //delete-remove the user data from phone local storage
     RememberUserPrefs.removeUserInfo().then((value){
@@ -82,7 +99,7 @@ Icon(
       padding: EdgeInsets.all(Dimensions.height30),
       children: [
         Center(
-          child: Image.asset("assets/man.jpg",width:Dimensions.width240,),
+          child: Image.asset("assets/personel_image.png",width:Dimensions.width240,),
 
         ),
        SizedBox(height: Dimensions.height20,),

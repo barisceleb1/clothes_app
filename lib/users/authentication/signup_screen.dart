@@ -104,7 +104,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: Dimensions.height275,
-                  child: Image.asset("assets/clothes.jpg"),
+                  child: Image.asset("assets/signup.png"),
                 ),
                 //signup screen sign-up form
                 Padding(
@@ -173,6 +173,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ),
                                 //email
                                 TextFormField(
+                                  keyboardType: TextInputType.emailAddress,
                                   controller: emailController,
                                   validator: (val) =>
                                       val == '' ? "Please write email" : null,

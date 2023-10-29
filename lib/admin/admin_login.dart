@@ -79,10 +79,13 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: Dimensions.height275,
-                  child: Image.asset("assets/admin.jpg"),
+                Padding(
+                  padding: EdgeInsets.only(top: Dimensions.height30),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: Dimensions.height275,
+                    child: Image.asset("assets/admin_last.png"),
+                  ),
                 ),
                 //Login Screen sign-in form
                 Padding(
