@@ -7,6 +7,7 @@ import 'package:clothes_app/users/model/order.dart';
 import 'package:clothes_app/users/userPreferences/current_user.dart';
 import 'package:clothes_app/utils/dimensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -111,15 +112,16 @@ class OrderFragmentScreen extends StatelessWidget {
             
             //---displaying the user orderList---
             Expanded(child: displayOrdersList(context)),
+
           ],
         ));
   }
-
-  Widget displayOrdersList(context) {
+ Widget displayOrdersList(context) {
     return FutureBuilder(
         future: getCurrentUserOrdersList(),
         builder: (context, AsyncSnapshot<List<Order>> dataSnapshot) {
           if (dataSnapshot.connectionState == ConnectionState.waiting) {
+
             return const Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -130,8 +132,15 @@ class OrderFragmentScreen extends StatelessWidget {
                   ),
                 ),
                 Center(
-                  child: CircularProgressIndicator(),
-                ),
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: SpinKitFadingCircle(
+                      color: Colors.grey,
+                      size: 40,
+                    ),
+                  ),
+                )
+
               ],
             );
           }
@@ -265,3 +274,6 @@ class OrderFragmentScreen extends StatelessWidget {
   }
 
 }
+
+
+

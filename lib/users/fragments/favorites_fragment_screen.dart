@@ -9,6 +9,7 @@ import 'package:clothes_app/users/model/favorite.dart';
 import 'package:clothes_app/users/userPreferences/current_user.dart';
 import 'package:clothes_app/utils/dimensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart'as http;
@@ -74,7 +75,7 @@ final currentOnlineUser= Get.put(CurrentUser());
                 fontSize: Dimensions.height16,
                 fontWeight: FontWeight.w300,
               ),),),
-            SizedBox(height: Dimensions.height24,),
+            SizedBox(height: Dimensions.height10,),
             //------------displaying favoriteList------------
             favoriteListItemDesignWidget(context),
           ],
@@ -90,8 +91,21 @@ favoriteListItemDesignWidget(context) {
       builder: (context, AsyncSnapshot<List<Favorite>> dataSnapShot)
       {
         if (dataSnapShot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(),
+          return const Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "Connection Waiting...",
+                style: TextStyle(color: Colors.grey),
+              ),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: SpinKitFadingCircle(
+                  color: Colors.grey,
+                  size: 40,
+                ),
+              )
+            ],
           );
         }
         if (dataSnapShot.data == null)
@@ -241,7 +255,7 @@ favoriteListItemDesignWidget(context) {
               });
         } else {
           return const Center(
-            child: Text("Empty no data",style: TextStyle(color: Colors.white),),
+            child:Image(image: AssetImage("assets/no_data.png"))
           );
         }
       }

@@ -11,6 +11,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:shimmer/shimmer.dart';
 
 class HomeFragmentScreen extends StatelessWidget {
   TextEditingController searchController = TextEditingController();
@@ -156,17 +157,332 @@ class HomeFragmentScreen extends StatelessWidget {
     return FutureBuilder(
         future: getTrendingClothItems(),
         builder: (context, AsyncSnapshot<List<Clothes>> dataSnapshot) {
-          if (dataSnapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+         if (dataSnapshot.connectionState == ConnectionState.waiting) {
+          return SizedBox(
+            height: Dimensions.height260,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Shimmer.fromColors(
+
+                    baseColor: Colors.white,
+                    highlightColor: Colors.transparent,
+                    child: Row(
+                      children: [
+                        Container(
+                          width: Dimensions.width200,
+                          margin: EdgeInsets.fromLTRB(
+                            Dimensions.height16 ,
+                            Dimensions.height10,
+                            Dimensions.height16,
+                            Dimensions.height10,
+                          ),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                              BorderRadius.circular(Dimensions.height20),
+                              color: Colors.black,
+                              boxShadow: const [
+                                BoxShadow(
+                                    offset: Offset(0, 3),
+                                    blurRadius: 6,
+                                    color: Colors.grey),
+                              ]),
+                          child: Column(
+                            children: [
+                              //-----------item image----------
+                              ClipRRect(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(Dimensions.height22),
+                                  topRight: Radius.circular(Dimensions.height22),
+                                ),
+                                child: Container(
+                                  height: Dimensions.height150,
+                                  width: Dimensions.height200,
+                                ),
+                              ),
+
+                              Padding(
+                                padding: EdgeInsets.all(Dimensions.height8),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    //-----------item name & price----------
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          width: Dimensions.width10,
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: Dimensions.height8,
+                                    ),
+                                    Row(
+                                      children: [
+                                        RatingBar.builder(
+                                          minRating: 1,
+                                          direction: Axis.horizontal,
+                                          allowHalfRating: true,
+                                          itemCount: 5,
+                                          itemBuilder: (context, c) => Icon(
+                                            Icons.star,
+                                            color: Colors.amber,
+                                          ),
+                                          onRatingUpdate: (updateRating) {},
+                                          ignoreGestures: true,
+                                          unratedColor: Colors.grey,
+                                          itemSize: Dimensions.height20,
+                                        ),
+                                        SizedBox(
+                                          width: Dimensions.width8,
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: Dimensions.width200,
+                          margin: EdgeInsets.fromLTRB(
+                            Dimensions.height16 ,
+                            Dimensions.height10,
+                            Dimensions.height16,
+                            Dimensions.height10,
+                          ),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                              BorderRadius.circular(Dimensions.height20),
+                              color: Colors.black,
+                              boxShadow: const [
+                                BoxShadow(
+                                    offset: Offset(0, 3),
+                                    blurRadius: 6,
+                                    color: Colors.grey),
+                              ]),
+                          child: Column(
+                            children: [
+                              //-----------item image----------
+                              ClipRRect(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(Dimensions.height22),
+                                  topRight: Radius.circular(Dimensions.height22),
+                                ),
+                                child: Container(
+                                  height: Dimensions.height150,
+                                  width: Dimensions.height200,
+                                ),
+                              ),
+
+                              Padding(
+                                padding: EdgeInsets.all(Dimensions.height8),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    //-----------item name & price----------
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          width: Dimensions.width10,
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: Dimensions.height8,
+                                    ),
+                                    Row(
+                                      children: [
+                                        RatingBar.builder(
+                                          minRating: 1,
+                                          direction: Axis.horizontal,
+                                          allowHalfRating: true,
+                                          itemCount: 5,
+                                          itemBuilder: (context, c) => Icon(
+                                            Icons.star,
+                                            color: Colors.amber,
+                                          ),
+                                          onRatingUpdate: (updateRating) {},
+                                          ignoreGestures: true,
+                                          unratedColor: Colors.grey,
+                                          itemSize: Dimensions.height20,
+                                        ),
+                                        SizedBox(
+                                          width: Dimensions.width8,
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: Dimensions.width200,
+                          margin: EdgeInsets.fromLTRB(
+                            Dimensions.height16 ,
+                            Dimensions.height10,
+                            Dimensions.height16,
+                            Dimensions.height10,
+                          ),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                              BorderRadius.circular(Dimensions.height20),
+                              color: Colors.black,
+                              boxShadow: const [
+                                BoxShadow(
+                                    offset: Offset(0, 3),
+                                    blurRadius: 6,
+                                    color: Colors.grey),
+                              ]),
+                          child: Column(
+                            children: [
+                              //-----------item image----------
+                              ClipRRect(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(Dimensions.height22),
+                                  topRight: Radius.circular(Dimensions.height22),
+                                ),
+                                child: Container(
+                                  height: Dimensions.height150,
+                                  width: Dimensions.height200,
+                                ),
+                              ),
+
+                              Padding(
+                                padding: EdgeInsets.all(Dimensions.height8),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    //-----------item name & price----------
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          width: Dimensions.width10,
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: Dimensions.height8,
+                                    ),
+                                    Row(
+                                      children: [
+                                        RatingBar.builder(
+                                          minRating: 1,
+                                          direction: Axis.horizontal,
+                                          allowHalfRating: true,
+                                          itemCount: 5,
+                                          itemBuilder: (context, c) => Icon(
+                                            Icons.star,
+                                            color: Colors.amber,
+                                          ),
+                                          onRatingUpdate: (updateRating) {},
+                                          ignoreGestures: true,
+                                          unratedColor: Colors.grey,
+                                          itemSize: Dimensions.height20,
+                                        ),
+                                        SizedBox(
+                                          width: Dimensions.width8,
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: Dimensions.width200,
+                          margin: EdgeInsets.fromLTRB(
+                            Dimensions.height16 ,
+                            Dimensions.height10,
+                            Dimensions.height16,
+                            Dimensions.height10,
+                          ),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                              BorderRadius.circular(Dimensions.height20),
+                              color: Colors.black,
+                              boxShadow: const [
+                                BoxShadow(
+                                    offset: Offset(0, 3),
+                                    blurRadius: 6,
+                                    color: Colors.grey),
+                              ]),
+                          child: Column(
+                            children: [
+                              //-----------item image----------
+                              ClipRRect(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(Dimensions.height22),
+                                  topRight: Radius.circular(Dimensions.height22),
+                                ),
+                                child: Container(
+                                  height: Dimensions.height150,
+                                  width: Dimensions.height200,
+                                ),
+                              ),
+
+                              Padding(
+                                padding: EdgeInsets.all(Dimensions.height8),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    //-----------item name & price----------
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          width: Dimensions.width10,
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: Dimensions.height8,
+                                    ),
+                                    Row(
+                                      children: [
+                                        RatingBar.builder(
+                                          minRating: 1,
+                                          direction: Axis.horizontal,
+                                          allowHalfRating: true,
+                                          itemCount: 5,
+                                          itemBuilder: (context, c) => Icon(
+                                            Icons.star,
+                                            color: Colors.amber,
+                                          ),
+                                          onRatingUpdate: (updateRating) {},
+                                          ignoreGestures: true,
+                                          unratedColor: Colors.grey,
+                                          itemSize: Dimensions.height20,
+                                        ),
+                                        SizedBox(
+                                          width: Dimensions.width8,
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+
+                      ],
+                    ),
+                  ),
+            ),
+
+          );
+
           }
           if (dataSnapshot.data == null) {
             return const Center(
               child: Text("No trending item found"),
             );
           }
-          if (dataSnapshot.data!.length > 0) {
+          if (dataSnapshot.data!.length > 0 ) {
             return SizedBox(
               height: Dimensions.height260,
               child: ListView.builder(
@@ -312,10 +628,264 @@ class HomeFragmentScreen extends StatelessWidget {
         future: getAllClothItems(),
         builder: (context, AsyncSnapshot<List<Clothes>> dataSnapshot) {
           if (dataSnapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
+            return SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Shimmer.fromColors(
+                highlightColor: Colors.transparent,
+                baseColor: Colors.white,
+                child: Column(
+                  children: [Container(
+                            margin: EdgeInsets.fromLTRB(
+                                Dimensions.height16,
+                                Dimensions.height16 ,
+                                Dimensions.height16,
+                                Dimensions.height16
+                                   ),
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                BorderRadius.circular(Dimensions.height20),
+                                color: Colors.black,
+                                boxShadow: const [
+                                  BoxShadow(
+                                      offset: Offset(0, 0),
+                                      blurRadius: 6,
+                                      color: Colors.grey),
+                                ]),
+                            child: Row(
+                              children:
+                              //--------name+price-------
+                              //tags
+                              [
+                                Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                        left: Dimensions.height15,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          //----------name and price---------
+                                          Row(
+                                            children: [
+                                              //-----------Price------------
+                                              Padding(
+                                                padding: EdgeInsets.only(left: Dimensions.height12,right: Dimensions.height12),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: Dimensions.height16,
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                                //------image clothes--------
+                                ClipRRect(
+                                  borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(Dimensions.height20),
+                                    bottomRight: Radius.circular(Dimensions.height20),
+                                  ),
+                                    child: Container(
+                                        height: Dimensions.height130,
+                                        width: Dimensions.height130,
+                                      ),
+
+
+
+                                ),
+                  ],
+                            ),
+                          ),
+                    Container(
+                      margin: EdgeInsets.fromLTRB(
+                          Dimensions.height16,
+                          Dimensions.height16 ,
+                          Dimensions.height16,
+                          Dimensions.height16
+                      ),
+                      decoration: BoxDecoration(
+                          borderRadius:
+                          BorderRadius.circular(Dimensions.height20),
+                          color: Colors.black,
+                          boxShadow: const [
+                            BoxShadow(
+                                offset: Offset(0, 0),
+                                blurRadius: 6,
+                                color: Colors.grey),
+                          ]),
+                      child: Row(
+                        children:
+                        //--------name+price-------
+                        //tags
+                        [
+                          Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  left: Dimensions.height15,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    //----------name and price---------
+                                    Row(
+                                      children: [
+                                        //-----------Price------------
+                                        Padding(
+                                          padding: EdgeInsets.only(left: Dimensions.height12,right: Dimensions.height12),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: Dimensions.height16,
+                                    ),
+                                  ],
+                                ),
+                              )),
+                          //------image clothes--------
+                          ClipRRect(
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(Dimensions.height20),
+                              bottomRight: Radius.circular(Dimensions.height20),
+                            ),
+                            child: Container(
+                              height: Dimensions.height130,
+                              width: Dimensions.height130,
+                            ),
+
+
+
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.fromLTRB(
+                          Dimensions.height16,
+                          Dimensions.height16 ,
+                          Dimensions.height16,
+                          Dimensions.height16
+                      ),
+                      decoration: BoxDecoration(
+                          borderRadius:
+                          BorderRadius.circular(Dimensions.height20),
+                          color: Colors.black,
+                          boxShadow: const [
+                            BoxShadow(
+                                offset: Offset(0, 0),
+                                blurRadius: 6,
+                                color: Colors.grey),
+                          ]),
+                      child: Row(
+                        children:
+                        //--------name+price-------
+                        //tags
+                        [
+                          Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  left: Dimensions.height15,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    //----------name and price---------
+                                    Row(
+                                      children: [
+                                        //-----------Price------------
+                                        Padding(
+                                          padding: EdgeInsets.only(left: Dimensions.height12,right: Dimensions.height12),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: Dimensions.height16,
+                                    ),
+                                  ],
+                                ),
+                              )),
+                          //------image clothes--------
+                          ClipRRect(
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(Dimensions.height20),
+                              bottomRight: Radius.circular(Dimensions.height20),
+                            ),
+                            child: Container(
+                              height: Dimensions.height130,
+                              width: Dimensions.height130,
+                            ),
+
+
+
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.fromLTRB(
+                          Dimensions.height16,
+                          Dimensions.height16 ,
+                          Dimensions.height16,
+                          Dimensions.height16
+                      ),
+                      decoration: BoxDecoration(
+                          borderRadius:
+                          BorderRadius.circular(Dimensions.height20),
+                          color: Colors.black,
+                          boxShadow: const [
+                            BoxShadow(
+                                offset: Offset(0, 0),
+                                blurRadius: 6,
+                                color: Colors.grey),
+                          ]),
+                      child: Row(
+                        children:
+                        //--------name+price-------
+                        //tags
+                        [
+                          Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  left: Dimensions.height15,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    //----------name and price---------
+                                    Row(
+                                      children: [
+                                        //-----------Price------------
+                                        Padding(
+                                          padding: EdgeInsets.only(left: Dimensions.height12,right: Dimensions.height12),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: Dimensions.height16,
+                                    ),
+                                  ],
+                                ),
+                              )),
+                          //------image clothes--------
+                          ClipRRect(
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(Dimensions.height20),
+                              bottomRight: Radius.circular(Dimensions.height20),
+                            ),
+                            child: Container(
+                              height: Dimensions.height130,
+                              width: Dimensions.height130,
+                            ),
+
+
+
+                          ),
+                        ],
+                      ),
+                    ),]
+                ),
+              ),
             );
-          }
+                }
           if (dataSnapshot.data == null) {
             return const Center(
               child: Text(
