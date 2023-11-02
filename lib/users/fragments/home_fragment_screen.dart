@@ -615,8 +615,7 @@ class HomeFragmentScreen extends StatelessWidget {
           } else {
             return Center(
                 child: Container(
-                    width: Dimensions.height260,
-                    height:Dimensions.height260,
+                    height:Dimensions.height180,
                     child: Image(image: AssetImage("assets/no_data.png")))
             );
           }
@@ -1016,10 +1015,9 @@ class HomeFragmentScreen extends StatelessWidget {
                   );
                 });
           } else {
-            return Center(
+            return  Center(
                 child: Container(
-                    width: Dimensions.height260,
-                    height:Dimensions.height260,
+                    height:Dimensions.height180,
                     child: Image(image: AssetImage("assets/no_data.png")))
             );
           }

@@ -246,12 +246,11 @@ class OrderFragmentScreen extends StatelessWidget {
             {
               return Column(
              children: [
-               Center(
+              Center(
               child: Container(
-              width: Dimensions.height260,
-                  height:Dimensions.height260,
+              height:Dimensions.height180,
                   child: Image(image: AssetImage("assets/no_data.png")))
-          )
+          ),
              ],
               );
             }

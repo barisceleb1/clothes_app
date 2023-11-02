@@ -255,10 +255,9 @@ favoriteListItemDesignWidget(context) {
               });
         } else {
           return Center(
-            child: Container(
-                width: Dimensions.height260,
-                height:Dimensions.height260,
-                child: Image(image: AssetImage("assets/no_data.png")))
+              child: Container(
+                  height:Dimensions.height180,
+                  child: Image(image: AssetImage("assets/no_data.png")))
           );
         }
       }
