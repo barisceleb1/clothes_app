@@ -254,8 +254,11 @@ favoriteListItemDesignWidget(context) {
                 );
               });
         } else {
-          return const Center(
-            child:Image(image: AssetImage("assets/no_data.png"))
+          return Center(
+            child: Container(
+                width: Dimensions.height260,
+                height:Dimensions.height260,
+                child: Image(image: AssetImage("assets/no_data.png")))
           );
         }
       }

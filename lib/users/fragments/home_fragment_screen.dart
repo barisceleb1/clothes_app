@@ -613,11 +613,11 @@ class HomeFragmentScreen extends StatelessWidget {
               ),
             );
           } else {
-            return const Center(
-              child: Text(
-                "Empty, No Data",
-                style: TextStyle(color: Colors.white),
-              ),
+            return Center(
+                child: Container(
+                    width: Dimensions.height260,
+                    height:Dimensions.height260,
+                    child: Image(image: AssetImage("assets/no_data.png")))
             );
           }
         });
@@ -1016,8 +1016,11 @@ class HomeFragmentScreen extends StatelessWidget {
                   );
                 });
           } else {
-            return const Center(
-              child: Text("Empty no data"),
+            return Center(
+                child: Container(
+                    width: Dimensions.height260,
+                    height:Dimensions.height260,
+                    child: Image(image: AssetImage("assets/no_data.png")))
             );
           }
         });

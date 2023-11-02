@@ -246,10 +246,12 @@ class OrderFragmentScreen extends StatelessWidget {
             {
               return Column(
              children: [
-                Center(child: Padding(
-                  padding:  EdgeInsets.all(Dimensions.height10),
-                  child: Text("Order Empty",style: TextStyle(color: Colors.white),),
-                )),
+               Center(
+              child: Container(
+              width: Dimensions.height260,
+                  height:Dimensions.height260,
+                  child: Image(image: AssetImage("assets/no_data.png")))
+          )
              ],
               );
             }
